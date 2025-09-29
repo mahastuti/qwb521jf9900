@@ -101,9 +101,77 @@ export async function GET(request: NextRequest) {
       ...(cursorId ? { cursor: { id: cursorId }, skip: 1 } : {})
     }), [] as Awaited<ReturnType<typeof prisma.burung_bio.findMany>>);
 
-    const hasMore = items.length > limit;
-    const data = hasMore ? items.slice(0, limit) : items;
-    const nextCursor = hasMore ? String(data[data.length - 1].id) : null;
+    let hasMore = items.length > limit;
+    let data = hasMore ? items.slice(0, limit) : items;
+    let nextCursor = hasMore ? String(data[data.length - 1].id) : null;
+
+    // Fallback: when DB has no rows, serve preview data from local CSV (src/scripts/bird.csv)
+    if (data.length === 0) {
+      try {
+        const fs = await import('fs');
+        const path = await import('path');
+        const fp = path.join(process.cwd(), 'src', 'scripts', 'bird.csv');
+        const content = fs.readFileSync(fp, 'utf8');
+        const parseCsv = (input: string): string[][] => {
+          const rows: string[][] = [];
+          let cur: string[] = [];
+          let field = '';
+          let i = 0;
+          let inQuotes = false;
+          let quote: '"' | "'" | null = null;
+          while (i < input.length) {
+            const ch = input[i];
+            if (inQuotes) {
+              if (ch === quote) {
+                if (input[i + 1] === quote) { field += quote; i += 2; continue; }
+                inQuotes = false; quote = null; i++; continue;
+              }
+              field += ch; i++; continue;
+            } else {
+              if (ch === '"' || ch === "'") { inQuotes = true; quote = ch as '"' | "'"; i++; continue; }
+              if (ch === ',') { cur.push(field); field = ''; i++; continue; }
+              if (ch === '\n') { cur.push(field); rows.push(cur); cur = []; field = ''; i++; continue; }
+              if (ch === '\r') { i++; continue; }
+              field += ch; i++;
+            }
+          }
+          cur.push(field);
+          rows.push(cur);
+          return rows.filter(r => r.some(c => c !== ''));
+        };
+        const table = parseCsv(content);
+        if (table.length >= 2) {
+          const header = table[0];
+          const idx = (k: string) => header.indexOf(k);
+          const rows = [] as any[];
+          for (let i = 1; i < table.length && rows.length < limit; i++) {
+            const cols = table[i];
+            rows.push({
+              id: i,
+              longitude: cols[idx('longitude')] ?? null,
+              latitude: cols[idx('latitude')] ?? null,
+              lokasi: cols[idx('lokasi')] ?? null,
+              titik: cols[idx('titik')] ?? null,
+              tanggal: cols[idx('tanggal')] ?? null,
+              jam: cols[idx('jam')] ?? null,
+              waktu: cols[idx('waktu')] ?? null,
+              cuaca: cols[idx('cuaca')] ?? null,
+              jenis_burung: cols[idx('jenis_burung')] ?? null,
+              nama_ilmiah: cols[idx('nama_ilmiah')] ?? null,
+              jumlah_burung: cols[idx('jumlah_burung')] ? Number(cols[idx('jumlah_burung')]) : null,
+              keterangan: cols[idx('keterangan')] ?? null,
+              dokumentasi: cols[idx('dokumentasi')] ?? null,
+              deletedAt: null,
+            });
+          }
+          data = rows;
+          hasMore = table.length - 1 > rows.length;
+          nextCursor = null;
+        }
+      } catch (e) {
+        console.warn('bird-species CSV fallback failed:', e);
+      }
+    }
 
     const serialize = (value: unknown): unknown => {
       if (value === null || value === undefined) return value;
@@ -130,8 +198,8 @@ export async function GET(request: NextRequest) {
 
     const enriched = data.map((r) => {
       if (!r.waktu && r.jam) {
-        const hour = (r.jam as Date).getUTCHours();
-        return { ...r, waktu: waktuFromHour(hour) } as typeof r;
+        const hour = (r.jam instanceof Date) ? r.jam.getUTCHours() : Number(String(r.jam).split(':')[0]);
+        if (Number.isFinite(hour)) return { ...r, waktu: waktuFromHour(Number(hour)) } as typeof r;
       }
       return r;
     });

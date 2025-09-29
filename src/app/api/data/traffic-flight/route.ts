@@ -326,8 +326,69 @@ export async function GET(request: NextRequest) {
       try { return await fn(); } catch (e) { console.error('prisma:error find()', e); return fallback; }
     };
 
+    const serveCsvFallback = async () => {
+      try {
+        const fs = await import('fs');
+        const path = await import('path');
+        const base = path.join(process.cwd(), 'src', 'scripts', 'modeling');
+        const files = ['1.csv','2.csv','3.csv','4.csv','5.csv','6.csv','7.csv','8.csv'].filter(f => fs.existsSync(path.join(base, f)));
+        const rows: any[] = [];
+        const monthSet = new Set<string>();
+        const yearSet = new Set<string>();
+        for (const f of files) {
+          const text = fs.readFileSync(path.join(base, f), 'utf8');
+          const lines = text.split(/\r?\n/).filter(l => l.trim() !== '');
+          if (!lines.length) continue;
+          const header = lines[0].split(',');
+          const h = (k: string) => header.indexOf(k);
+          for (let i = 1; i < lines.length; i++) {
+            const cols = lines[i].split(',');
+            if (!cols.length) continue;
+            const bulan = cols[h('bulan')] ?? '';
+            const tahun = cols[h('tahun')] ?? '';
+            if (bulanFilter && !(bulan === bulanFilter || bulan === String(parseInt(bulanFilter,10)))) continue;
+            if (tahunFilter && tahun !== tahunFilter) continue;
+            const row = {
+              id: `${f}-${i}`,
+              no: Number(cols[h('no')] ?? i) || i,
+              act_type: cols[h('act_type')] ?? null,
+              reg_no: cols[h('reg_no')] ?? null,
+              opr: cols[h('opr')] ?? null,
+              flight_number_origin: cols[h('flight_number_origin')] ?? null,
+              flight_number_dest: cols[h('flight_number_dest')] ?? null,
+              ata: cols[h('ata')] ?? null,
+              block_on: cols[h('block_on')] ?? '',
+              block_off: cols[h('block_off')] ?? '',
+              atd: cols[h('atd')] ?? null,
+              ground_time: cols[h('ground_time')] ?? null,
+              org: cols[h('org')] ?? null,
+              des: cols[h('des')] ?? null,
+              ps: cols[h('ps')] ?? null,
+              runway: cols[h('runway')] ?? null,
+              avio_a: cols[h('avio_a')] ?? null,
+              avio_d: cols[h('avio_d')] ?? null,
+              f_stat: cols[h('f_stat')] ?? null,
+              bulan: bulan || null,
+              tahun: tahun || null,
+            };
+            const matchesSearch = !search ? true : Object.values(row).some(v => String(v ?? '').toLowerCase().includes(search.toLowerCase()));
+            if (matchesSearch) rows.push(row);
+            if (bulan) monthSet.add(String(bulan).padStart(2,'0'));
+            if (tahun) yearSet.add(String(tahun));
+          }
+        }
+        const total = rows.length;
+        rows.sort((a,b) => (a[sortKey] ?? '').toString().localeCompare((b[sortKey] ?? '').toString()) * (sortOrderParam === 'asc' ? 1 : -1));
+        const pageRows = rows.slice(0, limit);
+        return NextResponse.json({ success: true, data: pageRows, pagination: { page: 1, limit, total, totalAll: total, pages: Math.ceil(total/Math.max(1,limit)) }, pageInfo: { limit, hasMore: total > pageRows.length, nextCursor: null }, filters: { months: Array.from(monthSet).sort((a,b)=>Number(a)-Number(b)), years: Array.from(yearSet).sort((a,b)=>Number(a)-Number(b)) } });
+      } catch (e) {
+        console.warn('traffic-flight CSV fallback failed:', e);
+        return NextResponse.json({ success: true, data: [], pagination: { page: 1, limit, total: 0, pages: 0 }, pageInfo: { limit, hasMore: false, nextCursor: null }, filters: { months: Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0')), years: [] } });
+      }
+    };
+
     if (!process.env.DATABASE_URL) {
-      return NextResponse.json({ success: true, data: [], pagination: { page: 1, limit, total: 0, pages: 0 }, pageInfo: { limit, hasMore: false, nextCursor: null }, filters: { months: Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0')), years: [] } });
+      return await serveCsvFallback();
     }
 
     const items = await safeFind(() => prisma.trafficFlight.findMany({
@@ -359,9 +420,13 @@ export async function GET(request: NextRequest) {
       take: limit + 1,
       ...(cursorId ? { cursor: { id: cursorId }, skip: 1 } : {})
     }), [] as Awaited<ReturnType<typeof prisma.trafficFlight.findMany>>);
-    const hasMore = items.length > limit;
-    const rows = hasMore ? items.slice(0, limit) : items;
-    const nextCursor = hasMore ? String(rows[rows.length - 1].id) : null;
+    let hasMore = items.length > limit;
+    let rows = hasMore ? items.slice(0, limit) : items;
+    let nextCursor = hasMore ? String(rows[rows.length - 1].id) : null;
+
+    if (rows.length === 0) {
+      return await serveCsvFallback();
+    }
 
     const distinct = await safeFind(() => prisma.trafficFlight.groupBy({ by: ['bulan','tahun'] }), [] as Awaited<ReturnType<typeof prisma.trafficFlight.groupBy>>);
 

@@ -112,9 +112,87 @@ export async function GET(request: NextRequest) {
       take: limit + 1,
       ...(cursorId ? { cursor: { id: cursorId }, skip: 1 } : {})
     }), [] as Awaited<ReturnType<typeof prisma.birdStrike.findMany>>);
-    const hasMore = items.length > limit;
-    const rows = hasMore ? items.slice(0, limit) : items;
-    const nextCursor = hasMore ? String(rows[rows.length - 1].id) : null;
+    let hasMore = items.length > limit;
+    let rows = hasMore ? items.slice(0, limit) : items;
+    let nextCursor = hasMore ? String(rows[rows.length - 1].id) : null;
+
+    // CSV fallback when DB has no rows
+    if (rows.length === 0) {
+      try {
+        const fs = await import('fs');
+        const path = await import('path');
+        const files = ['d1.csv','d2.csv'];
+        const base = path.join(process.cwd(), 'src', 'scripts');
+        const out: any[] = [];
+        const parseCsv = (input: string): string[][] => {
+          const rows: string[][] = [];
+          let cur: string[] = [];
+          let field = '';
+          let i = 0;
+          let inQuotes = false;
+          let quote: '"' | "'" | null = null;
+          while (i < input.length) {
+            const ch = input[i];
+            if (inQuotes) {
+              if (ch === quote) {
+                if (input[i + 1] === quote) { field += quote; i += 2; continue; }
+                inQuotes = false; quote = null; i++; continue;
+              }
+              field += ch; i++; continue;
+            } else {
+              if (ch === '"' || ch === "'") { inQuotes = true; quote = ch as '"' | "'"; i++; continue; }
+              if (ch === ',') { cur.push(field); field = ''; i++; continue; }
+              if (ch === '\n') { cur.push(field); rows.push(cur); cur = []; field = ''; i++; continue; }
+              if (ch === '\r') { i++; continue; }
+              field += ch; i++;
+            }
+          }
+          cur.push(field);
+          rows.push(cur);
+          return rows.filter(r => r.some(c => c !== ''));
+        };
+        for (const f of files) {
+          const fp = path.join(base, f);
+          if (!fs.existsSync(fp)) continue;
+          const text = fs.readFileSync(fp, 'utf8');
+          const table = parseCsv(text);
+          if (table.length < 2) continue;
+          const header = table[0];
+          const idx = (k: string) => header.indexOf(k);
+          for (let i = 1; i < table.length && out.length < limit; i++) {
+            const cols = table[i];
+            out.push({
+              id: `${f}-${i}`,
+              tanggal: cols[idx('tanggal')] ?? null,
+              jam: cols[idx('jam')] ?? null,
+              waktu: cols[idx('waktu')] ?? null,
+              fase: cols[idx('fase')] ?? null,
+              lokasi_perimeter: cols[idx('lokasi_perimeter')] ?? null,
+              titik: cols[idx('titik')] ?? null,
+              kategori_kejadian: cols[idx('kategori_kejadian')] ?? null,
+              remark: cols[idx('remark')] ?? null,
+              airline: cols[idx('airline')] ?? null,
+              runway_use: cols[idx('runway_use')] ?? null,
+              komponen_pesawat: cols[idx('komponen_pesawat')] ?? null,
+              dampak_pada_pesawat: cols[idx('dampak_pada_pesawat')] ?? null,
+              kondisi_kerusakan: cols[idx('kondisi_kerusakan')] ?? null,
+              tindakan_perbaikan: cols[idx('tindakan_perbaikan')] ?? null,
+              sumber_informasi: cols[idx('sumber_informasi')] ?? null,
+              deskripsi: cols[idx('deskripsi')] ?? null,
+              dokumentasi: cols[idx('dokumentasi')] ?? null,
+              jenis_pesawat: cols[idx('jenis_pesawat')] ?? null,
+              deletedAt: null,
+            });
+          }
+          if (out.length >= limit) break;
+        }
+        rows = out;
+        hasMore = out.length >= limit;
+        nextCursor = null;
+      } catch (e) {
+        console.warn('bird-strike CSV fallback failed:', e);
+      }
+    }
 
     const DOC_BASE = 'https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/';
     const ymdLocal = (d: Date): string => {
@@ -126,11 +204,14 @@ export async function GET(request: NextRequest) {
 
     const enriched: typeof rows = rows.map((r) => {
       if ((!r.dokumentasi || r.dokumentasi === '') && r.tanggal) {
-        const d = r.tanggal as Date;
-        const url = `${DOC_BASE}${ymdLocal(d)}.png`;
-        return { ...r, dokumentasi: url };
+        const dRaw = r.tanggal as unknown as (Date | string);
+        const d = dRaw instanceof Date ? dRaw : new Date(String(dRaw));
+        if (!Number.isNaN(d.getTime())) {
+          const url = `${DOC_BASE}${ymdLocal(d)}.png`;
+          return { ...r, dokumentasi: url };
+        }
       }
-      return r;
+      return r as typeof rows[number];
     });
 
     const serialize = (value: unknown): unknown => {

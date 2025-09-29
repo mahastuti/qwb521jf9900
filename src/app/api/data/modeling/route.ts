@@ -207,7 +207,74 @@ export async function GET(request: NextRequest) {
     if (searchParams.get('preview') === '1') {
       // Build preview data in-memory (no DB writes), using same pipeline as POST
       if (!process.env.DATABASE_URL) {
-        return NextResponse.json({ success: true, data: [], pagination: { page: 1, limit, total: 0, pages: 0 }, pageInfo: { limit, hasMore: false, nextCursor: null } });
+        try {
+          const fs = await import('fs');
+          const path = await import('path');
+          const base = path.join(process.cwd(), 'src', 'scripts', 'modeling');
+          const files = ['1.csv','2.csv','3.csv','4.csv','5.csv','6.csv','7.csv','8.csv'].filter(f => fs.existsSync(path.join(base, f)));
+          const waktuFromHourLocal = (h: number) => waktuFromHour(h);
+          const toHourFloor = (d: Date): Date => new Date(Math.floor(d.getTime() / 3600000) * 3600000);
+          const hourlyByKey = await getHourlyWeatherMap();
+          const mapWeatherCode = (code: number | null | undefined): string => {
+            if (code === null || code === undefined) return 'Tidak tersedia';
+            const m: Record<number, string> = {0:'Cerah',1:'Cerah Berawan',2:'Berawan Sebagian',3:'Berawan',45:'Berkabut',48:'Rime Kabut',51:'Gerimis Ringan',53:'Gerimis Sedang',55:'Gerimis Lebat',56:'Gerimis Beku Ringan',57:'Gerimis Beku Lebat',61:'Hujan Ringan',63:'Hujan Sedang',65:'Hujan Lebat',66:'Hujan Beku Ringan',67:'Hujan Beku Lebat',71:'Salju Ringan',73:'Salju Sedang',75:'Salju Lebat',77:'Butiran Salju',80:'Hujan Gerimis',81:'Hujan Lebat Sesaat',82:'Hujan Sangat Lebat Sesaat',85:'Hujan Salju Ringan',86:'Hujan Salju Lebat',95:'Badai Petir',96:'Badai Petir',99:'Badai Petir'}; return m[Number(code)] ?? 'Tidak tersedia';
+          };
+          type ModelRow = { tanggal: Date; jam: Date | null; waktu: string | null; cuaca: string | null; rata_rata_burung_di_titik_x: number | null; titik: number | null; fase: string | null; strike: '0' | '1' };
+          const tfRows: ModelRow[] = [];
+          const timeRegex = /^\d{1,2}:\d{2}(?::\d{2})?$/;
+          for (const f of files) {
+            const txt = fs.readFileSync(path.join(base, f), 'utf8');
+            const lines = txt.split(/\r?\n/).filter(l => l.trim() !== '');
+            if (!lines.length) continue;
+            const header = lines[0].split(',');
+            const h = (k: string) => header.indexOf(k);
+            const extract = (s: string | null | undefined): { day: number | null; jam: string | null } => {
+              if (!s) return { day: null, jam: null };
+              const left = s.split('/',1)[0]?.trim();
+              const right = s.includes('/') ? s.slice(s.indexOf('/')+1).trim() : '';
+              const m = right.match(/(\d{1,2}:\d{2}(?::\d{2})?)/);
+              return { day: left ? Number(left) : null, jam: m ? m[1] : null };
+            };
+            for (let i = 1; i < lines.length; i++) {
+              const cols = lines[i].split(',');
+              const bulan = Number(cols[h('bulan')] ?? NaN);
+              const tahun = Number(cols[h('tahun')] ?? NaN);
+              const ata = extract(cols[h('ata')] ?? null);
+              const atd = extract(cols[h('atd')] ?? null);
+              const pushTF = (day: number | null, jam: string | null, fase: 'Landing' | 'Take Off') => {
+                if (day == null || !Number.isFinite(bulan) || !Number.isFinite(tahun) || !jam || !timeRegex.test(jam)) return;
+                const tanggal = new Date(Date.UTC(tahun, bulan - 1, Math.max(1, Math.min(31, Number(day)))));
+                const hh = Number(String(jam).split(':')[0]);
+                const jamDate = new Date(Date.UTC(1970,0,1, Number.isFinite(hh)?hh:0, Number(String(jam).split(':')[1]||'0')));
+                const dtHour = new Date(Date.UTC(tanggal.getUTCFullYear(), tanggal.getUTCMonth(), tanggal.getUTCDate(), Number.isFinite(hh) ? hh : 0, 0, 0, 0));
+                const key = `${dtHour.getUTCFullYear()}-${String(dtHour.getUTCMonth() + 1).padStart(2, '0')}-${String(dtHour.getUTCDate()).padStart(2, '0')} ${String(dtHour.getUTCHours()).padStart(2, '0')}:${String(dtHour.getUTCMinutes()).padStart(2, '0')}`;
+                const cuaca = mapWeatherCode(hourlyByKey.get(key)?.weather_code);
+                tfRows.push({ tanggal, jam: jamDate, waktu: waktuFromHourLocal(hh), cuaca, rata_rata_burung_di_titik_x: null, titik: null, fase, strike: '0' });
+              };
+              if (ata.day != null && ata.jam) pushTF(ata.day, ata.jam, 'Landing');
+              if (atd.day != null && atd.jam) pushTF(atd.day, atd.jam, 'Take Off');
+            }
+          }
+          const expanded = tfRows.flatMap(r => Array.from({ length: 8 }, (_, i) => ({ ...r, titik: i + 1 })));
+          const sortByParamRaw = (searchParams.get('sortBy') || 'id').toString();
+          const allowedSort = new Set(['id','tanggal','jam','waktu','cuaca','rata_rata_burung_di_titik_x','titik','fase','strike']);
+          const sortByParam = allowedSort.has(sortByParamRaw) ? sortByParamRaw : 'tanggal';
+          const sortOrderParam: SortOrder = (searchParams.get('sortOrder') === 'asc' ? 'asc' : 'desc');
+          expanded.sort((a,b) => {
+            if (a.strike !== b.strike) return a.strike === '1' ? -1 : 1;
+            const dir = sortOrderParam === 'asc' ? 1 : -1;
+            if (sortByParam === 'tanggal') return (a.tanggal.getTime() - b.tanggal.getTime()) * dir;
+            if (sortByParam === 'jam') return ((a.jam?.getTime() || 0) - (b.jam?.getTime() || 0)) * dir;
+            if (sortByParam === 'titik') return ((a.titik ?? 0) - (b.titik ?? 0)) * dir;
+            return String((a as any)[sortByParam] ?? '').localeCompare(String((b as any)[sortByParam] ?? '')) * dir;
+          });
+          const total = expanded.length; const start = (pageParam - 1) * limit; const rows = expanded.slice(start, start + limit);
+          const serialize = (value: unknown): unknown => { if (value === null || value === undefined) return value; if (typeof value === 'bigint') return value.toString(); if (value instanceof Date) return value.toISOString(); if (Array.isArray(value)) return value.map(serialize); if (typeof value === 'object') { const out: Record<string, unknown> = {}; for (const [k, v] of Object.entries(value as Record<string, unknown>)) out[k] = serialize(v); return out; } return value; };
+          return NextResponse.json({ success: true, data: serialize(rows), pagination: { page: pageParam, limit, total, pages: Math.ceil(total / Math.max(1, limit)) }, pageInfo: { limit, hasMore: start + rows.length < total, nextCursor: null } });
+        } catch (e) {
+          console.warn('modeling preview CSV fallback failed:', e);
+          return NextResponse.json({ success: true, data: [], pagination: { page: 1, limit, total: 0, pages: 0 }, pageInfo: { limit, hasMore: false, nextCursor: null } });
+        }
       }
 
       const waktuFromHourLocal = (h: number) => waktuFromHour(h);
@@ -227,7 +294,7 @@ export async function GET(request: NextRequest) {
       const tahunTargetAkhir = new Date('2025-12-31T23:59:59.999Z');
       const birdRaw = await prisma.birdStrike.findMany({ where: { tanggal: { gte: tahunTargetMulai, lte: tahunTargetAkhir }, remark: { equals: 'Terkonfirmasi' }, fase: { in: ['Landing','Take Off'] }, runway_use: { in: ['10','28','10.0','28.0','010','028'] } }, orderBy: { tanggal: 'asc' } });
       type ModelRow = { tanggal: Date; jam: Date | null; waktu: string | null; cuaca: string | null; rata_rata_burung_di_titik_x: number | null; titik: number | null; fase: string | null; strike: '0' | '1' };
-      const birdPrepared: ModelRow[] = birdRaw.map((r) => {
+      let birdPrepared: ModelRow[] = birdRaw.map((r) => {
         const tInt = normTitik(r.titik ?? null);
         const hour = r.jam ? new Date(r.jam).getUTCHours() : null;
         const waktu = hour == null ? 'Malam' : waktuFromHourLocal(hour);
@@ -357,7 +424,66 @@ export async function GET(request: NextRequest) {
         return row;
       }).filter((x): x is ModelRow => x !== null);
       // Expand each TF row into 8 titik (1..8)
-      const tfPrepared: ModelRow[] = tfPreparedBase.flatMap((row) => Array.from({ length: 8 }, (_, i2) => ({ ...row, titik: i2 + 1 })));
+      let tfPrepared: ModelRow[] = tfPreparedBase.flatMap((row) => Array.from({ length: 8 }, (_, i2) => ({ ...row, titik: i2 + 1 })));
+
+      // If DB returned nothing for both, fallback to local CSVs
+      if (birdPrepared.length === 0 && tfPrepared.length === 0) {
+        try {
+          const fs = await import('fs');
+          const path = await import('path');
+          const base = path.join(process.cwd(), 'src', 'scripts');
+          // Build birdPrepared from d1.csv minimally
+          try {
+            const text = fs.readFileSync(path.join(base, 'd1.csv'), 'utf8');
+            const parseCsv = (input: string): string[][] => {
+              const rows: string[][] = []; let cur: string[] = []; let field = ''; let i = 0; let inQ = false; let q: '"' | "'" | null = null; while (i < input.length) { const ch = input[i]; if (inQ) { if (ch === q) { if (input[i+1]===q) { field+=q; i+=2; continue; } inQ=false; q=null; i++; continue; } field+=ch; i++; continue; } else { if (ch==='"' || ch==="'") { inQ=true; q=ch as '"'|"'"; i++; continue; } if (ch===',') { cur.push(field); field=''; i++; continue; } if (ch==='\n') { cur.push(field); rows.push(cur); cur=[]; field=''; i++; continue; } if (ch==='\r') { i++; continue; } field+=ch; i++; }} cur.push(field); rows.push(cur); return rows.filter(r=>r.some(c=>c!=='')); };
+            const table = parseCsv(text);
+            if (table.length >= 2) {
+              const header = table[0]; const ix = (k: string) => header.indexOf(k);
+              const subset = [] as ModelRow[];
+              for (let i = 1; i < table.length && subset.length < limit; i++) {
+                const c = table[i];
+                const tanggal = c[ix('tanggal')] ? new Date(String(c[ix('tanggal')])) : new Date('2025-01-01T00:00:00.000Z');
+                const jamStr = c[ix('jam')] || null; const jam = jamStr ? new Date(`1970-01-01T${String(jamStr).slice(11,16)}:00.000Z`) : null;
+                const hh = jam ? jam.getUTCHours() : 0; const waktu = waktuFromHourLocal(hh);
+                const dtHour = toHourFloor(new Date(tanggal)); const key = `${dtHour.getUTCFullYear()}-${String(dtHour.getUTCMonth()+1).padStart(2,'0')}-${String(dtHour.getUTCDate()).padStart(2,'0')} ${String(dtHour.getUTCHours()).padStart(2,'0')}:${String(dtHour.getUTCMinutes()).padStart(2,'0')}`;
+                const cuaca = mapWeatherCode(hourlyByKey.get(key)?.weather_code);
+                subset.push({ tanggal, jam, waktu, cuaca, rata_rata_burung_di_titik_x: null, titik: null, fase: c[ix('fase')] || null, strike: '1' });
+              }
+              birdPrepared = subset;
+            }
+          } catch {}
+          // Build tfPrepared from modeling/* CSVs
+          try {
+            const baseTF = path.join(base, 'modeling');
+            const files = ['1.csv','2.csv','3.csv','4.csv','5.csv','6.csv','7.csv','8.csv'].filter(f => fs.existsSync(path.join(baseTF, f)));
+            const rowsTF: { tanggal: Date; jam: Date; waktu: string; fase: string }[] = [];
+            const parseCsv = (input: string): string[][] => { const rows: string[][] = []; let cur: string[] = []; let field = ''; let i = 0; let inQ = false; let q: '"' | "'" | null = null; while (i < input.length) { const ch = input[i]; if (inQ) { if (ch === q) { if (input[i+1]===q) { field+=q; i+=2; continue; } inQ=false; q=null; i++; continue; } field+=ch; i++; continue; } else { if (ch==='"' || ch==="'") { inQ=true; q=ch as '"'|"'"; i++; continue; } if (ch===',') { cur.push(field); field=''; i++; continue; } if (ch==='\n') { cur.push(field); rows.push(cur); cur=[]; field=''; i++; continue; } if (ch==='\r') { i++; continue; } field+=ch; i++; }} cur.push(field); rows.push(cur); return rows.filter(r=>r.some(c=>c!=='')); };
+            for (const f of files) {
+              const txt = fs.readFileSync(path.join(baseTF, f), 'utf8');
+              const table = parseCsv(txt);
+              if (table.length < 2) continue;
+              const h = (k: string) => table[0].indexOf(k);
+              for (let i = 1; i < table.length; i++) {
+                const c = table[i];
+                const bulan = Number(c[h('bulan')] ?? NaN); const tahun = Number(c[h('tahun')] ?? NaN);
+                const get = (s: string | null): { day: number | null; jam: string | null } => { if (!s) return { day: null, jam: null }; const left = s.split('/',1)[0]; const right = s.includes('/') ? s.slice(s.indexOf('/')+1) : ''; const m = right.match(/(\d{1,2}:\d{2}(?::\d{2})?)/); return { day: left ? Number(left) : null, jam: m ? m[1] : null }; };
+                const ata = get(c[h('ata')] ?? null); const atd = get(c[h('atd')] ?? null);
+                const pushRow = (d: number | null, jamStr: string | null, fase: string) => { if (d==null || !Number.isFinite(bulan) || !Number.isFinite(tahun) || !jamStr) return; const tanggal = new Date(Date.UTC(tahun, bulan-1, Math.max(1, Math.min(31, d)))); const hh = Number(String(jamStr).split(':')[0]); const jam = new Date(Date.UTC(1970,0,1, Number.isFinite(hh)?hh:0, Number(String(jamStr).split(':')[1]||'0'))); const waktu = waktuFromHourLocal(Number.isFinite(hh)?hh:0); rowsTF.push({ tanggal, jam, waktu, fase }); };
+                if (ata.day != null && ata.jam) pushRow(ata.day, ata.jam, 'Landing');
+                if (atd.day != null && atd.jam) pushRow(atd.day, atd.jam, 'Take Off');
+              }
+            }
+            const baseRows: ModelRow[] = rowsTF.map(r => {
+              const dtHour = new Date(Date.UTC(r.tanggal.getUTCFullYear(), r.tanggal.getUTCMonth(), r.tanggal.getUTCDate(), r.jam.getUTCHours(), 0, 0, 0));
+              const key = `${dtHour.getUTCFullYear()}-${String(dtHour.getUTCMonth()+1).padStart(2,'0')}-${String(dtHour.getUTCDate()).padStart(2,'0')} ${String(dtHour.getUTCHours()).padStart(2,'0')}:${String(dtHour.getUTCMinutes()).padStart(2,'0')}`;
+              const cuaca = mapWeatherCode(hourlyByKey.get(key)?.weather_code);
+              return { tanggal: r.tanggal, jam: r.jam, waktu: r.waktu, cuaca, rata_rata_burung_di_titik_x: null, titik: null, fase: r.fase, strike: '0' };
+            });
+            tfPrepared = baseRows.flatMap(row => Array.from({ length: 8 }, (_, i) => ({ ...row, titik: i + 1 })));
+          } catch {}
+        } catch {}
+      }
 
       // Optional debugging output when requested
       const debugDate = searchParams.get('debugDate') === '1';

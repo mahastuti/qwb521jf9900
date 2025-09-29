@@ -102,15 +102,20 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
             return res;
           } catch (e) {
             lastErr = e;
-            if (signal?.aborted) throw e;
+            if (signal?.aborted) {
+              return new Response(JSON.stringify({ success: false, aborted: true }), { status: 499 });
+            }
             await new Promise(r => setTimeout(r, 200 * (i + 1)));
           }
         }
-        throw lastErr instanceof Error ? lastErr : new Error('Failed to fetch');
+        return new Response(JSON.stringify({ success: false, error: (lastErr as Error | undefined)?.message || 'Failed to fetch' }), { status: 500 });
       };
 
       const response = await tryFetch();
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        if (response.status === 499 || signal?.aborted) return; // aborted silently
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       if (signal?.aborted) return;
 
       const result = await response.json();
