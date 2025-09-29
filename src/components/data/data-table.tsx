@@ -87,9 +87,7 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
 
       const url = `/api/data/${dataType}?${params}`;
       const fetchKey = `${dataType}|p=${page}|l=${limit}|s=${deferredSearch}|del=${showDeleted}|sb=${sortBy}|so=${sortOrder}|b=${bulan}|t=${tahun}|src=${modelSource}|c=${cur ?? ''}`;
-      if (inflightRef.current && lastKeyRef.current === fetchKey) {
-        return;
-      }
+      // Allow new fetches even if a previous identical request was in-flight; React StrictMode double-invokes effects
       inflightRef.current = true;
       lastKeyRef.current = fetchKey;
       const tryFetch = async (): Promise<Response> => {
@@ -113,13 +111,24 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
 
       const response = await tryFetch();
       if (!response.ok) {
-        if (response.status === 499 || signal?.aborted) return; // aborted silently
-        throw new Error(`HTTP error! status: ${response.status}`);
+        // Treat aborted or client/server errors gracefully - do not throw to avoid unhandled rejections
+        if (signal?.aborted || response.status === 499) return;
+        let txt: string | null = null;
+        try { txt = await response.text(); } catch {}
+        console.error('Data fetch failed', response.status, txt);
+        return;
       }
       if (signal?.aborted) return;
 
-      const result = await response.json();
-      if (!signal?.aborted && result.success) {
+      let result: any;
+      try {
+        result = await response.json();
+      } catch (e) {
+        if (signal?.aborted) return;
+        console.error('Failed to parse JSON response', e);
+        return;
+      }
+      if (!signal?.aborted && result && result.success) {
         setData(result.data);
         setPagination(result.pagination ?? { page, limit, total: Array.isArray(result.data) ? ((page - 1) * limit) + result.data.length : 0, pages: 0 });
         const has = Boolean(result?.pageInfo?.hasMore);
@@ -154,7 +163,11 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
     if (dataType === 'modeling' && !modelingInitRef.current) {
       modelingInitRef.current = true;
       (async () => {
-        try { await fetchData(controller.signal); } catch {}
+        try {
+          await fetchData(controller.signal);
+        } catch (err) {
+          if ((err as any)?.name !== 'AbortError') console.error(err);
+        }
       })();
       return () => {
         try { if (!controller.signal.aborted) controller.abort(); } catch {}
@@ -162,7 +175,10 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
     }
 
     // Fetch immediately; deferredSearch already throttles typing
-    Promise.resolve(fetchData(controller.signal)).catch(() => {});
+    Promise.resolve(fetchData(controller.signal)).catch((err) => {
+      if ((err as any)?.name === 'AbortError') return;
+      console.error(err);
+    });
 
     return () => {
       try { if (!controller.signal.aborted) controller.abort(); } catch {}

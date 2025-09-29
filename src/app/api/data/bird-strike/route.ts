@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import type { Prisma } from '@prisma/client';
 
 type SortOrder = 'asc' | 'desc';
 
@@ -41,10 +42,13 @@ export async function GET(request: NextRequest) {
     };
 
     const sortOrder: SortOrder = (searchParams.get('sortOrder') === 'asc' ? 'asc' : 'desc');
+    const sortByParamRaw = (searchParams.get('sortBy') || 'createdAt').toString();
+    const allowedSort = new Set(['id','tanggal','jam','waktu','fase','lokasi_perimeter','titik','kategori_kejadian','remark','airline','runway_use','komponen_pesawat','dampak_pada_pesawat','kondisi_kerusakan','tindakan_perbaikan','sumber_informasi','deskripsi','jenis_pesawat','createdAt']);
+    const sortByParam = allowedSort.has(sortByParamRaw) ? sortByParamRaw : 'createdAt';
     const cursorParam = searchParams.get('cursor');
     const cursorId = cursorParam && /^\d+$/.test(cursorParam) ? BigInt(cursorParam) : null;
 
-    const orderBy: Record<string, SortOrder> = { id: sortOrder };
+    const orderBy: Prisma.BirdStrikeOrderByWithRelationInput = { [sortByParam]: sortOrder } as Prisma.BirdStrikeOrderByWithRelationInput;
 
     const orFilters: Record<string, unknown>[] = [];
     if (doSearch) {
@@ -69,23 +73,14 @@ export async function GET(request: NextRequest) {
     }
 
     const where = {
-      deletedAt: showDeleted ? { not: null } : null,
-      ...(doSearch && { OR: orFilters })
-    };
+      ...(doSearch && { OR: orFilters }),
+      ...(showDeleted ? {} : { deletedAt: null })
+    } as Prisma.BirdStrikeWhereInput;
 
-    const total = 0;
-
-    if (!process.env.DATABASE_URL) {
-      return NextResponse.json({
-        success: true,
-        data: [],
-        pagination: { page: 1, limit, total: 0, pages: 0 },
-        pageInfo: { limit, hasMore: false, nextCursor: null }
-      });
-    }
+    const total = await safeCount(() => prisma.birdStrike.count({ where }));
 
     const items = await safeFind(() => prisma.birdStrike.findMany({
-      where,
+      where: where as Prisma.BirdStrikeWhereInput,
       orderBy,
       select: {
         id: true,
@@ -116,8 +111,8 @@ export async function GET(request: NextRequest) {
     let rows = hasMore ? items.slice(0, limit) : items;
     let nextCursor = hasMore ? String(rows[rows.length - 1].id) : null;
 
-    // CSV fallback when DB has no rows
-    if (rows.length === 0) {
+    // CSV fallback when DB is not configured or has no rows
+    if (!process.env.DATABASE_URL || rows.length === 0) {
       try {
         const fs = await import('fs');
         const path = await import('path');
@@ -223,11 +218,11 @@ export async function GET(request: NextRequest) {
       return value;
     };
 
-    const totalAll = 0;
+    const totalAll = await safeCount(() => prisma.birdStrike.count());
     return NextResponse.json({
       success: true,
       data: serialize(enriched),
-      pagination: { page: 1, limit, total, totalAll, pages: Math.ceil(total / Math.max(1, limit)) },
+      pagination: { page: 1, limit, total, totalAll, pages: Math.ceil((total || 0) / Math.max(1, limit)) },
       pageInfo: { limit, hasMore, nextCursor }
     });
   } catch (error) {

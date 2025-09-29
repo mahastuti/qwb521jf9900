@@ -37,10 +37,17 @@ export async function GET(request: NextRequest) {
     };
 
     const sortOrder: SortOrder = (searchParams.get('sortOrder') === 'asc' ? 'asc' : 'desc');
+    const sortByParamRaw = (searchParams.get('sortBy') || 'createdAt').toString();
+    const allowedSort = new Set(['id','longitude','latitude','lokasi','titik','tanggal','jam','waktu','cuaca','jenis_burung','nama_ilmiah','jumlah_burung','createdAt']);
+    const sortByParam = allowedSort.has(sortByParamRaw) ? sortByParamRaw : 'createdAt';
     const cursorParam = searchParams.get('cursor');
     const cursorId = cursorParam && /^\d+$/.test(cursorParam) ? BigInt(cursorParam) : null;
 
-    const orderByClause: Prisma.burung_bioOrderByWithRelationInput | Prisma.burung_bioOrderByWithRelationInput[] = showDeleted ? ([{ deletedAt: 'desc' }, { id: 'desc' }]) : ({ id: sortOrder });
+    const orderByClause: Prisma.burung_bioOrderByWithRelationInput | Prisma.burung_bioOrderByWithRelationInput[] = (
+      showDeleted && sortByParam === 'createdAt'
+        ? ([{ deletedAt: 'desc' }, { id: 'desc' }])
+        : ({ [sortByParam]: sortOrder } as Prisma.burung_bioOrderByWithRelationInput)
+    );
 
     const orFilters: Record<string, unknown>[] = [];
     if (doSearch) {
@@ -67,18 +74,14 @@ export async function GET(request: NextRequest) {
     }
 
     const where = {
-      deletedAt: showDeleted ? { not: null } : null,
-      ...(doSearch && { OR: orFilters })
-    };
+      ...(doSearch && { OR: orFilters }),
+      ...(showDeleted ? {} : { deletedAt: null })
+    } as Prisma.burung_bioWhereInput;
 
-    const total = 0;
-
-    if (!process.env.DATABASE_URL) {
-      return NextResponse.json({ success: true, data: [], pagination: { page: 1, limit, total: 0, pages: 0 }, pageInfo: { limit, hasMore: false, nextCursor: null } });
-    }
+    const total = await safeCount(() => prisma.burung_bio.count({ where }));
 
     const items = await safeFind(() => prisma.burung_bio.findMany({
-      where,
+      where: where as Prisma.burung_bioWhereInput,
       orderBy: orderByClause,
       select: {
         id: true,
@@ -105,8 +108,8 @@ export async function GET(request: NextRequest) {
     let data = hasMore ? items.slice(0, limit) : items;
     let nextCursor = hasMore ? String(data[data.length - 1].id) : null;
 
-    // Fallback: when DB has no rows, serve preview data from local CSV (src/scripts/bird.csv)
-    if (data.length === 0) {
+    // Fallback: when DB is not configured or has no rows, serve preview data from local CSV (src/scripts/bird.csv)
+    if (!process.env.DATABASE_URL || data.length === 0) {
       try {
         const fs = await import('fs');
         const path = await import('path');
@@ -206,11 +209,11 @@ export async function GET(request: NextRequest) {
 
     const safeData = serialize(enriched);
 
-    const totalAll = 0;
+    const totalAll = await safeCount(() => prisma.burung_bio.count());
     return NextResponse.json({
       success: true,
       data: safeData,
-      pagination: { page: 1, limit, total, totalAll, pages: Math.ceil(total / Math.max(1, limit)) },
+      pagination: { page: 1, limit, total, totalAll, pages: Math.ceil((total || 0) / Math.max(1, limit)) },
       pageInfo: { limit, hasMore, nextCursor }
     });
   } catch (error) {
