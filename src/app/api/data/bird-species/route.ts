@@ -79,6 +79,11 @@ export async function GET(request: NextRequest) {
     } as Prisma.burung_bioWhereInput;
 
     const total = await safeCount(() => prisma.burung_bio.count({ where }));
+    const whereActive = {
+      ...(doSearch && { OR: orFilters }),
+      deletedAt: null
+    } as Prisma.burung_bioWhereInput;
+    const totalActive = await safeCount(() => prisma.burung_bio.count({ where: whereActive }));
 
     const items = await safeFind(() => prisma.burung_bio.findMany({
       where: where as Prisma.burung_bioWhereInput,
@@ -213,7 +218,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       data: safeData,
-      pagination: { page: 1, limit, total, totalAll, pages: Math.ceil((total || 0) / Math.max(1, limit)) },
+      pagination: { page: 1, limit, total, totalAll, totalActive, pages: Math.ceil((total || 0) / Math.max(1, limit)) },
       pageInfo: { limit, hasMore, nextCursor }
     });
   } catch (error) {

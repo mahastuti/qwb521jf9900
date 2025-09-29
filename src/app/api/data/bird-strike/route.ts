@@ -78,6 +78,11 @@ export async function GET(request: NextRequest) {
     } as Prisma.BirdStrikeWhereInput;
 
     const total = await safeCount(() => prisma.birdStrike.count({ where }));
+    const whereActive = {
+      ...(doSearch && { OR: orFilters }),
+      deletedAt: null
+    } as Prisma.BirdStrikeWhereInput;
+    const totalActive = await safeCount(() => prisma.birdStrike.count({ where: whereActive }));
 
     const items = await safeFind(() => prisma.birdStrike.findMany({
       where: where as Prisma.BirdStrikeWhereInput,
@@ -222,7 +227,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       data: serialize(enriched),
-      pagination: { page: 1, limit, total, totalAll, pages: Math.ceil((total || 0) / Math.max(1, limit)) },
+      pagination: { page: 1, limit, total, totalAll, totalActive, pages: Math.ceil((total || 0) / Math.max(1, limit)) },
       pageInfo: { limit, hasMore, nextCursor }
     });
   } catch (error) {

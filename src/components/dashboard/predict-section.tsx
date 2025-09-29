@@ -4,7 +4,9 @@ import { useEffect, useState } from 'react';
 
 export default function PredictSection() {
   const [showPopup, setShowPopup] = useState(false);
-  const [predictionResult, setPredictionResult] = useState('0.98674');
+  const [predictionResult, setPredictionResult] = useState<string | null>('0.98674');
+  const [loadingPredict, setLoadingPredict] = useState(false);
+  const [modelInfo, setModelInfo] = useState<{ path?: string; mtime?: string; ext?: string; size?: number } | null>(null);
   type FormState = {
     tanggal: string;
     tahun: string;
@@ -62,10 +64,56 @@ export default function PredictSection() {
     });
   };
 
-  const handlePredict = () => {
-    const randomResult = (Math.random() * 0.3 + 0.7).toFixed(5);
-    setPredictionResult(randomResult);
-    setShowPopup(true);
+  useEffect(() => {
+    // fetch model status on mount
+    const f = async () => {
+      try {
+        const res = await fetch('/api/modeling/status');
+        const js = await res.json();
+        if (js && js.success && js.model) setModelInfo(js.model);
+      } catch (e) {
+        // ignore
+      }
+    };
+    f();
+  }, []);
+
+  const handlePredict = async () => {
+    setLoadingPredict(true);
+    try {
+      const payload = {
+        tanggal: formData.tanggal,
+        jam: formData.jam,
+        waktu: formData.waktu,
+        cuaca: formData.cuaca,
+        jumlahBurung: formData.jumlahBurung,
+        titik: formData.titik,
+        fase: formData.fase
+      };
+      const res = await fetch('/api/modeling/predict', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      const js = await res.json();
+      if (res.ok && js.success) {
+        let out: any = js.result?.predictions ?? js.result ?? js.output ?? null;
+        if (Array.isArray(out)) out = out[0];
+        const num = typeof out === 'string' && !isNaN(Number(out)) ? Number(out) : typeof out === 'number' ? out : null;
+        setPredictionResult(num != null ? num.toFixed(5) : String(out ?? 'N/A'));
+        // refresh model info after prediction (in case retrained)
+        try {
+          const r2 = await fetch('/api/modeling/status');
+          const j2 = await r2.json();
+          if (j2 && j2.success && j2.model) setModelInfo(j2.model);
+        } catch {}
+      } else {
+        console.error('Predict API error', js);
+        setPredictionResult('Error');
+      }
+    } catch (e) {
+      console.error(e);
+      setPredictionResult('Error');
+    } finally {
+      setLoadingPredict(false);
+      setShowPopup(true);
+    }
   };
   const closePopup = () => setShowPopup(false);
 
@@ -150,15 +198,17 @@ export default function PredictSection() {
       {/* Prediction Result Section */}
       <div className="bg-white border-2 border-gray-300 rounded-lg p-8">
         <h2 className="text-xl font-medium text-center mb-6">Peluang Burung dari Titik {formData.titik} Menyebabkan Bird Strike Sebesar</h2>
-        <div className="bg-gray-100 border-2 border-gray-300 rounded-lg p-8 mb-6">
-          <div className="text-4xl font-bold text-center mb-2">{predictionResult}</div>
+        <div className="bg-gray-100 border-2 border-gray-300 rounded-lg p-8 mb-2">
+          <div className="text-4xl font-bold text-center mb-2">{predictionResult ?? '—'}</div>
+          <div className="text-center text-sm text-gray-600">{modelInfo ? `Model: ${modelInfo.path ?? ''} ${modelInfo.mtime ? `· trained ${new Date(modelInfo.mtime).toLocaleString()}` : ''}` : 'Model: not available'}</div>
         </div>
         <div className="text-center">
           <button
             onClick={handlePredict}
-            className="bg-green-500 hover:bg-gray-400 border-2 border-gray-300 px-8 py-3 rounded-lg font-medium transition-colors text-white"
+            disabled={loadingPredict}
+            className={`px-8 py-3 rounded-lg font-medium transition-colors text-white ${loadingPredict ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600'}`}
           >
-            Prediksi
+            {loadingPredict ? 'Memproses...' : 'Prediksi'}
           </button>
         </div>
       </div>

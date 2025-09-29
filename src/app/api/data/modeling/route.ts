@@ -1,3 +1,4 @@
+
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import type { Prisma } from '@prisma/client';
@@ -971,6 +972,24 @@ export async function POST() {
       if (chunk.length) {
         const res = await prisma.model.createMany({ data: chunk, skipDuplicates: true });
         created += res.count;
+      }
+    }
+
+    // Trigger background training when new modeling rows were created
+    if (created > 0) {
+      try {
+        const { spawn } = await import('child_process');
+        const python = process.env.PYTHON_BIN || 'python3';
+        const script = process.env.TRAIN_SCRIPT || 'backend/scripts/train.py';
+        const output = process.env.MODEL_OUTPUT || 'backend/models/model.cbm';
+        const query = 'SELECT tanggal, jam, waktu, cuaca, rata_rata_burung_di_titik_x, titik, fase, strike FROM model';
+        const args = ['--output', output, '--query', query];
+        const envVars = { ...process.env, MODEL_TYPE: process.env.MODEL_TYPE || 'random_forest' } as Record<string,string>;
+        const proc = spawn(python, [script, ...args], { detached: true, stdio: 'ignore', env: envVars });
+        try { proc.unref(); } catch {}
+        console.log('Triggered background training:', script, 'MODEL_TYPE=', envVars.MODEL_TYPE);
+      } catch (e) {
+        console.error('Failed to trigger training script:', e);
       }
     }
 

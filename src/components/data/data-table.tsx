@@ -51,6 +51,10 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
   const [bulanOptions, setBulanOptions] = useState<string[]>([]);
   const [tahunOptions, setTahunOptions] = useState<string[]>([]);
   const [modelSource, setModelSource] = useState<'all' | 'bird-strike' | 'traffic-flight'>('all');
+  // Simple in-memory client cache to speed up repeated filter/pagination changes
+  const cacheRef = useRef<Map<string, { data: BaseRow[]; pagination?: any; pageInfo?: any; filters?: any }>>(new Map());
+  const CACHE_TTL = 1000 * 60 * 2; // 2 minutes
+  const cacheTimestamps = useRef<Map<string, number>>(new Map());
 
   const [isEditing, setIsEditing] = useState(false);
   const [editingRow, setEditingRow] = useState<BaseRow | null>(null);
@@ -109,6 +113,38 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
         return new Response(JSON.stringify({ success: false, error: (lastErr as Error | undefined)?.message || 'Failed to fetch' }), { status: 500 });
       };
 
+      // Check cache first
+      const cached = cacheRef.current.get(fetchKey);
+      const ts = cacheTimestamps.current.get(fetchKey) ?? 0;
+      if (cached && (Date.now() - ts) < CACHE_TTL) {
+        // Use cached result, but still trigger a background refresh
+        setData(cached.data);
+        setPagination(cached.pagination ?? { page, limit, total: Array.isArray(cached.data) ? ((page - 1) * limit) + cached.data.length : 0, pages: 0 });
+        setHasMore(Boolean(cached.pageInfo?.hasMore));
+        setGrandTotal(typeof cached.pagination?.totalAll === 'number' ? cached.pagination.totalAll : null);
+        // Start background fetch but do not block UI
+        (async () => {
+          try {
+            const resBg = await tryFetch();
+            if (!resBg.ok) return;
+            const jsBg = await resBg.json();
+            if (jsBg && jsBg.success) {
+              cacheRef.current.set(fetchKey, { data: jsBg.data, pagination: jsBg.pagination, pageInfo: jsBg.pageInfo, filters: jsBg.filters });
+              cacheTimestamps.current.set(fetchKey, Date.now());
+              if (!signal?.aborted) {
+                setData(jsBg.data);
+                setPagination(jsBg.pagination ?? { page, limit, total: Array.isArray(jsBg.data) ? ((page - 1) * limit) + jsBg.data.length : 0, pages: 0 });
+                setHasMore(Boolean(jsBg.pageInfo?.hasMore));
+                if (typeof jsBg.pagination?.totalAll === 'number') setGrandTotal(jsBg.pagination.totalAll);
+              }
+            }
+          } catch (e) {}
+        })();
+        if (signal?.aborted) return;
+        // return early since cached data shown
+        return;
+      }
+
       const response = await tryFetch();
       if (!response.ok) {
         // Treat aborted or client/server errors gracefully - do not throw to avoid unhandled rejections
@@ -129,6 +165,7 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
         return;
       }
       if (!signal?.aborted && result && result.success) {
+        try { cacheRef.current.set(fetchKey, { data: result.data, pagination: result.pagination, pageInfo: result.pageInfo, filters: result.filters }); cacheTimestamps.current.set(fetchKey, Date.now()); } catch {}
         setData(result.data);
         setPagination(result.pagination ?? { page, limit, total: Array.isArray(result.data) ? ((page - 1) * limit) + result.data.length : 0, pages: 0 });
         const has = Boolean(result?.pageInfo?.hasMore);
@@ -490,7 +527,7 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
           </div>
         </details>
       </div>
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
+      <div className="flex items-center gap-3 flex-wrap mb-6">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <span className="text-sm">Show</span>
@@ -767,10 +804,16 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
       <div className="flex justify-between items-center mt-6">
         <div className="text-sm text-gray-600">
           {(() => {
-            const totalFiltered = pagination?.total;
+            const totalFiltered = (pagination as any)?.total as number | undefined;
+            const totalActive = (pagination as any)?.totalActive as number | undefined;
             const start = data.length === 0 ? 0 : ((page - 1) * limit) + 1;
             const end = data.length === 0 ? 0 : ((page - 1) * limit) + data.length;
-            const totalTextNum = grandTotal ?? (typeof totalFiltered === 'number' ? totalFiltered : end);
+            let totalTextNum: number | undefined;
+            if (dataType === 'bird-strike' || dataType === 'bird-species') {
+              totalTextNum = totalActive ?? totalFiltered ?? end;
+            } else {
+              totalTextNum = totalFiltered ?? end;
+            }
             return <>Showing {start} to {end} of {totalTextNum} entries</>;
           })()}
         </div>
