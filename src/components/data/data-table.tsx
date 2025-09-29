@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useTransition, useDeferredValue } from "react";
 import { Trash2, RotateCcw, Download, ChevronLeft, ChevronRight, Pencil } from "lucide-react";
 
 interface DataTableProps {
@@ -23,9 +23,11 @@ enum SortDirection {
 export default function DataTable({ dataType, exportScope = 'all' }: DataTableProps) {
   const [data, setData] = useState<BaseRow[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('');
+  const deferredSearch = useDeferredValue(search);
   const [showDeleted, setShowDeleted] = useState(false);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -35,9 +37,13 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
   });
   const [hasMore, setHasMore] = useState(false);
   const [cursors, setCursors] = useState<Record<number, string | null>>({ 1: null });
+  const cursorsRef = useRef<Record<number, string | null>>({ 1: null });
+  const lastKeyRef = useRef<string>('');
+  const inflightRef = useRef<boolean>(false);
   const [message, setMessage] = useState('');
+  const [grandTotal, setGrandTotal] = useState<number | null>(null);
 
-  const [sortBy, setSortBy] = useState<string>(dataType === 'traffic-flight' ? 'no' : dataType === 'modeling' ? 'tanggal' : '');
+  const [sortBy, setSortBy] = useState<string>(dataType === 'traffic-flight' ? 'no' : dataType === 'modeling' ? '' : '');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>(dataType === 'traffic-flight' ? SortDirection.Asc : SortDirection.Desc);
 
   const [bulan, setBulan] = useState<string>('');
@@ -60,10 +66,10 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
       const params = new URLSearchParams({
         page: page.toString(),
         limit: limit.toString(),
-        search,
+        search: deferredSearch,
         showDeleted: showDeleted.toString(),
       });
-      const cur = cursors[page] ?? null;
+      const cur = cursorsRef.current[page] ?? null;
       if (cur) params.set('cursor', cur);
       if (sortBy) {
         params.set('sortBy', sortBy);
@@ -72,12 +78,20 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
       if (dataType === 'traffic-flight') {
         if (bulan) params.set('bulan', bulan);
         if (tahun) params.set('tahun', tahun);
+        if (page > 1) params.set('skipCounts', '1');
       }
       if (dataType === 'modeling') {
         params.set('source', modelSource);
+        params.set('preview', '1');
       }
 
       const url = `/api/data/${dataType}?${params}`;
+      const fetchKey = `${dataType}|p=${page}|l=${limit}|s=${deferredSearch}|del=${showDeleted}|sb=${sortBy}|so=${sortOrder}|b=${bulan}|t=${tahun}|src=${modelSource}|c=${cur ?? ''}`;
+      if (inflightRef.current && lastKeyRef.current === fetchKey) {
+        return;
+      }
+      inflightRef.current = true;
+      lastKeyRef.current = fetchKey;
       const tryFetch = async (): Promise<Response> => {
         let lastErr: unknown;
         for (let i = 0; i < 3; i++) {
@@ -106,7 +120,11 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
         const has = Boolean(result?.pageInfo?.hasMore);
         setHasMore(has);
         const next = result?.pageInfo?.nextCursor ?? null;
-        setCursors(prev => ({ ...prev, [page + 1]: next }));
+        if ((cursorsRef.current[page + 1] ?? undefined) !== next) {
+          cursorsRef.current = { ...cursorsRef.current, [page + 1]: next };
+          setCursors(prev => ({ ...prev, [page + 1]: next }));
+        }
+        if (typeof result?.pagination?.totalAll === 'number') setGrandTotal(result.pagination.totalAll);
         if (dataType === 'traffic-flight') {
           const months: string[] = result?.filters?.months || Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
           const years: string[] = result?.filters?.years || [];
@@ -121,8 +139,9 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
       }
     } finally {
       if (!signal?.aborted) setLoading(false);
+      inflightRef.current = false;
     }
-  }, [page, limit, search, showDeleted, dataType, sortBy, sortOrder, bulan, tahun]);
+  }, [page, limit, deferredSearch, showDeleted, dataType, sortBy, sortOrder, bulan, tahun, modelSource]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -137,20 +156,19 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
       };
     }
 
-    const timeoutId = setTimeout(() => {
-      fetchData(controller.signal);
-    }, search ? 300 : 0);
+    // Fetch immediately; deferredSearch already throttles typing
+    Promise.resolve(fetchData(controller.signal)).catch(() => {});
 
     return () => {
       try { if (!controller.signal.aborted) controller.abort(); } catch {}
-      clearTimeout(timeoutId);
     };
-  }, [fetchData, search, dataType]);
+  }, [page, limit, deferredSearch, showDeleted, dataType, sortBy, sortOrder, bulan, tahun, modelSource]);
 
   useEffect(() => {
     setCursors({ 1: null });
-    setPage(1);
-  }, [dataType, search, showDeleted, sortBy, sortOrder, bulan, tahun, limit, modelSource]);
+    cursorsRef.current = { 1: null };
+    startTransition(() => setPage(1));
+  }, [dataType, deferredSearch, showDeleted, sortBy, sortOrder, bulan, tahun, limit, modelSource]);
 
   const handleDelete = async (id: string) => {
     try {
@@ -160,7 +178,7 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
       if (result.success) {
         setMessage(result.message);
         setTimeout(() => setMessage(''), 3000);
-        setTimeout(() => { if (!loading) { const c = new AbortController(); fetchData(c.signal); } }, 100);
+        { const c = new AbortController(); fetchData(c.signal); }
       } else {
         setMessage(result.message || 'Failed to delete data');
         setTimeout(() => setMessage(''), 3000);
@@ -180,7 +198,7 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
       if (result.success) {
         setMessage(result.message);
         setTimeout(() => setMessage(''), 3000);
-        setTimeout(() => { if (!loading) { const c = new AbortController(); fetchData(c.signal); } }, 100);
+        { const c = new AbortController(); fetchData(c.signal); }
       } else {
         setMessage(result.message || 'Failed to restore data');
         setTimeout(() => setMessage(''), 3000);
@@ -195,6 +213,11 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
   const downloadData = () => {
     const params = new URLSearchParams();
     if (sortBy) { params.set('sortBy', sortBy); params.set('sortOrder', sortOrder); }
+    // Always respect current Modeling preview/source so exported data matches what user sees
+    if (dataType === 'modeling') {
+      params.set('source', modelSource);
+      params.set('preview', '1');
+    }
     if (exportScope === 'filtered') {
       if (search) params.set('search', search);
       params.set('page', String(page));
@@ -203,9 +226,6 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
       if (dataType === 'traffic-flight') {
         if (bulan) params.set('bulan', bulan);
         if (tahun) params.set('tahun', tahun);
-      }
-      if (dataType === 'modeling') {
-        params.set('source', modelSource);
       }
     }
     const url = `/api/data/${dataType}/export?${params.toString()}`;
@@ -260,7 +280,7 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
           { key: 'jam', label: 'Jam' },
           { key: 'waktu', label: 'Waktu' },
           { key: 'cuaca', label: 'Cuaca' },
-          { key: 'jumlah_burung_pada_titik_x', label: 'Jumlah Burung pada Titik X' },
+          { key: 'rata_rata_burung_di_titik_x', label: 'Rata-rata Burung di Titik X' },
           { key: 'titik', label: 'Titik' },
           { key: 'fase', label: 'Fase' },
           { key: 'strike', label: 'Strike' },
@@ -358,12 +378,11 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
 
   const toggleSort = (key: string) => {
     if (sortBy === key) {
-      setSortOrder(prev => (prev === SortDirection.Asc ? SortDirection.Desc : SortDirection.Asc));
+      startTransition(() => setSortOrder(prev => (prev === SortDirection.Asc ? SortDirection.Desc : SortDirection.Asc)));
     } else {
-      setSortBy(key);
-      setSortOrder(SortDirection.Asc);
+      startTransition(() => { setSortBy(key); setSortOrder(SortDirection.Asc); });
     }
-    setPage(1);
+    startTransition(() => setPage(1));
   };
 
   const toDateInput = (iso?: string) => {
@@ -450,14 +469,14 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
           </div>
         </details>
       </div>
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <span className="text-sm">Show</span>
             <select
               value={limit}
               onChange={(e) => { setLimit(Number(e.target.value)); setPage(1); }}
-              className="border border-gray-300 rounded px-2 py-1 text-sm"
+              className="border border-gray-300 rounded px-2 py-1 text-sm h-9"
             >
               <option value={10}>10</option>
               <option value={25}>25</option>
@@ -482,7 +501,7 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
                 <select
                   value={bulan}
                   onChange={(e) => { setBulan(e.target.value); setPage(1); }}
-                  className="border border-gray-300 rounded px-2 py-1 text-sm"
+                  className="border border-gray-300 rounded px-2 py-1 text-sm h-9"
                 >
                   <option value="">Semua</option>
                   {bulanOptions.map((m) => (
@@ -495,7 +514,7 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
                 <select
                   value={tahun}
                   onChange={(e) => { setTahun(e.target.value); setPage(1); }}
-                  className="border border-gray-300 rounded px-2 py-1 text-sm"
+                  className="border border-gray-300 rounded px-2 py-1 text-sm h-9"
                 >
                   <option value="">Semua</option>
                   {tahunOptions.map((y) => (
@@ -507,18 +526,71 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
           )}
 
           {dataType === 'modeling' && (
-            <label className="flex items-center gap-2 text-sm">
-              <span className="text-sm">Sumber:</span>
-              <select
-                value={modelSource}
-                onChange={(e) => { setModelSource(e.target.value as any); setPage(1); }}
-                className="border border-gray-300 rounded px-2 py-1 text-sm"
-              >
-                <option value="all">Semua</option>
-                <option value="bird-strike">Bird Strike</option>
-                <option value="traffic-flight">Traffic Flight</option>
-              </select>
-            </label>
+            <>
+              <label className="flex items-center gap-2 text-sm">
+                <span className="text-sm">Sumber:</span>
+                <select
+                  value={modelSource}
+                  onChange={(e) => { const v = e.target.value as 'all' | 'bird-strike' | 'traffic-flight'; setModelSource(v); setPage(1); }}
+                  className="border border-gray-300 rounded px-2 py-1 text-sm h-9"
+                >
+                  <option value="all">Semua</option>
+                  <option value="bird-strike">Bird Strike</option>
+                  <option value="traffic-flight">Traffic Flight</option>
+                </select>
+              </label>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={async () => {
+                    if (!confirm('Hapus semua data Model?')) return;
+                    try {
+                      const res = await fetch('/api/data/modeling', { method: 'DELETE' });
+                      const js = await res.json();
+                      if (!res.ok || !js.success) throw new Error(js.message || 'Gagal menghapus');
+                      setMessage(`Terhapus: ${js.deleted}`);
+                      setTimeout(() => setMessage(''), 3000);
+                      const c = new AbortController();
+                      fetchData(c.signal);
+                    } catch (e) {
+                      console.error(e);
+                      setMessage('Gagal menghapus data model');
+                      setTimeout(() => setMessage(''), 3000);
+                    }
+                  }}
+                  className="border border-gray-300 px-3 py-2 h-9 rounded text-sm hover:bg-gray-50 flex items-center gap-2"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  Clear Model
+                </button>
+                <button
+                  onClick={async () => {
+                    if (!confirm('Simpan hasil preprocessing ke Database (overwrite)?')) return;
+                    try {
+                      const res = await fetch('/api/data/modeling', { method: 'POST' });
+                      const js = await res.json();
+                      if (res.status === 409) {
+                        setMessage('Sedang berjalan, tunggu sebentar...');
+                        setTimeout(() => setMessage(''), 3000);
+                        return;
+                      }
+                      if (!res.ok || !js.success) throw new Error(js.message || 'Gagal menyimpan');
+                      setMessage(`Tersimpan. Dibuat: ${js.created}`);
+                      setTimeout(() => setMessage(''), 3000);
+                      const c = new AbortController();
+                      fetchData(c.signal);
+                    } catch (e) {
+                      console.error(e);
+                      setMessage('Gagal menyimpan model');
+                      setTimeout(() => setMessage(''), 3000);
+                    }
+                  }}
+                  className="px-4 py-2 h-9 rounded text-white bg-gradient-to-r from-[#72BB34] to-[#40A3DC] hover:opacity-90 text-sm flex items-center gap-2"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                  Save Model to DB
+                </button>
+              </div>
+            </>
           )}
           <div className="flex items-center gap-2">
             <span className="text-sm">Search:</span>
@@ -526,36 +598,11 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="border border-gray-300 rounded px-3 py-1 text-sm w-48"
+              className="border border-gray-300 rounded px-3 py-1 text-sm h-9 w-56"
               placeholder="Search..."
             />
           </div>
-          {dataType === 'modeling' && (
-            <button
-              onClick={async () => {
-                try {
-                  const scope = modelSource;
-                  if (!window.confirm(scope === 'all' ? 'Hapus SEMUA data Modeling?' : `Hapus data Modeling sumber: ${scope}?`)) return;
-                  const url = `/api/data/modeling?${new URLSearchParams({ source: scope })}`;
-                  const res = await fetch(url, { method: 'DELETE' });
-                  const json = await res.json();
-                  if (!res.ok || !json.success) throw new Error(json.message || 'Gagal menghapus data');
-                  setMessage(`Berhasil dibersihkan (${json.deleted})`);
-                  setTimeout(() => setMessage(''), 3000);
-                  const c = new AbortController();
-                  await fetchData(c.signal);
-                } catch (e) {
-                  console.error(e);
-                  setMessage('Gagal membersihkan data');
-                  setTimeout(() => setMessage(''), 3000);
-                }
-              }}
-              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm"
-            >
-              Bersihkan Data
-            </button>
-          )}
-          <button onClick={downloadData} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2 text-sm">
+          <button onClick={downloadData} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 h-9 rounded flex items-center gap-2 text-sm">
             <Download className="w-4 h-4" />
             Download Data
           </button>
@@ -587,17 +634,28 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
             </tr>
           </thead>
           <tbody>
-            {loading ? (
-              <tr>
-                <td colSpan={columns.length + 1} className="border border-gray-300 px-4 py-8 text-center text-gray-500">Loading...</td>
-              </tr>
+            {(loading && data.length === 0) ? (
+              Array.from({ length: Math.min(limit, 10) }).map((_, i) => (
+                <tr key={`sk-${i}`} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                  {columns.map((c) => (
+                    <td key={`${i}-${c.key}`} className="border border-gray-300 px-4 py-2">
+                      <div className="h-4 bg-gray-200 rounded animate-pulse" />
+                    </td>
+                  ))}
+                  {dataType !== 'modeling' && (
+                    <td className="border border-gray-300 px-4 py-2 w-40">
+                      <div className="h-4 bg-gray-200 rounded animate-pulse" />
+                    </td>
+                  )}
+                </tr>
+              ))
             ) : data.length === 0 ? (
               <tr>
                 <td colSpan={columns.length + 1} className="border border-gray-300 px-4 py-8 text-center text-gray-500">No data available</td>
               </tr>
             ) : (
               data.map((row, index) => (
-                <tr key={String(row.id)} className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} ${row.deletedAt ? 'opacity-50' : ''}`}>
+                <tr key={(() => { const r = row as { id?: string | number } ; return r.id != null ? String(r.id) : `${String(row.tanggal ?? '')}|${String(row.jam ?? '')}|${String(row.titik ?? '')}|${String(row.fase ?? '')}|${String((row as Record<string, unknown>)['strike'] ?? '')}|${index}`; })()} className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} ${row.deletedAt ? 'opacity-50' : ''} ${loading ? 'opacity-70 transition-opacity' : ''}`}>
                   {columns.map((column) => {
                     const val = row[column.key];
                     if (column.key === 'dokumentasi' && typeof val === 'string' && val) {
@@ -689,20 +747,19 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
         <div className="text-sm text-gray-600">
           {(() => {
             const totalFiltered = pagination?.total;
-            const totalAll = (pagination as any)?.totalAll;
             const start = data.length === 0 ? 0 : ((page - 1) * limit) + 1;
             const end = data.length === 0 ? 0 : ((page - 1) * limit) + data.length;
-            const totalText = typeof totalAll === 'number' ? String(totalAll) : (typeof totalFiltered === 'number' ? String(totalFiltered) : String(end));
-            return <>Showing {start} to {end} of {totalText} entries</>;
+            const totalTextNum = grandTotal ?? (typeof totalFiltered === 'number' ? totalFiltered : end);
+            return <>Showing {start} to {end} of {totalTextNum} entries</>;
           })()}
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={() => setPage(page - 1)} disabled={page === 1} className="border border-gray-300 px-3 py-1 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 flex items-center gap-1 text-sm">
+          <button onClick={() => startTransition(() => setPage(page - 1))} disabled={page === 1 || isPending} className="border border-gray-300 px-3 py-1 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 flex items-center gap-1 text-sm">
             <ChevronLeft className="w-4 h-4" />
             Previous
           </button>
           <span className="px-3 py-1 text-sm">Page {page}</span>
-          <button onClick={() => setPage(page + 1)} disabled={!hasMore} className="border border-gray-300 px-3 py-1 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 flex items-center gap-1 text-sm">
+          <button onClick={() => startTransition(() => setPage(page + 1))} disabled={!hasMore || isPending} className="border border-gray-300 px-3 py-1 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 flex items-center gap-1 text-sm">
             Next
             <ChevronRight className="w-4 h-4" />
           </button>

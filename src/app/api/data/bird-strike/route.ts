@@ -283,64 +283,6 @@ export async function PUT(request: NextRequest) {
       return value;
     };
 
-    try {
-      const since = new Date('2025-01-01T00:00:00.000Z');
-      const fase = (updated.fase || '').toLowerCase();
-      const kategori = (updated.kategori_kejadian || '').toLowerCase();
-      const remark = (updated.remark || '').toLowerCase();
-      const eligible = (!!updated.tanggal && updated.tanggal >= since) &&
-        (kategori.includes('bird strike')) &&
-        (remark.includes('terkonfirmasi')) &&
-        (fase.includes('landing') || fase.includes('take off') || fase.includes('take-off'));
-      if (eligible) {
-        const normTitik = (s: string | null | undefined) => {
-          if (!s) return null;
-          const m = String(s).match(/-?\d+(?:[\.,]\d+)?/);
-          if (!m) return null;
-          const f = parseFloat(m[0].replace(',', '.'));
-          if (!Number.isFinite(f)) return null;
-          return Math.round(f);
-        };
-        const tInt = normTitik(updated.titik || '');
-        if (tInt != null) {
-          const candidates = [String(updated.titik || ''), String(tInt), `${tInt}.0`, `${tInt}.00`, `${tInt},0`, `${tInt},00`];
-          const loc = await prisma.burung_bio.findFirst({ where: { OR: candidates.map(c => ({ titik: c })), longitude: { not: null }, latitude: { not: null } }, orderBy: { tanggal: 'desc' } });
-          const hour = updated.jam ? new Date(updated.jam).getUTCHours() : 12;
-          const waktu = updated.waktu || (hour !== null ? (hour >= 0 && hour <= 3 ? 'Dini Hari' : hour <= 8 ? 'Pagi' : hour <= 13 ? 'Siang' : hour <= 18 ? 'Sore' : 'Malam') : '');
-          let cuaca: string | null = null;
-          if (loc && updated.tanggal) {
-            try {
-              const dateStr = updated.tanggal.toISOString().slice(0, 10);
-              const url = new URL('https://archive-api.open-meteo.com/v1/era5');
-              url.searchParams.set('latitude', String(parseFloat(String(loc.latitude))));
-              url.searchParams.set('longitude', String(parseFloat(String(loc.longitude))));
-              url.searchParams.set('start_date', dateStr);
-              url.searchParams.set('end_date', dateStr);
-              url.searchParams.set('hourly', 'precipitation,cloudcover');
-              url.searchParams.set('timezone', 'Asia/Jakarta');
-              const res = await fetch(url.toString(), { cache: 'no-store' });
-              if (res.ok) {
-                const json = await res.json();
-                const times: string[] = json?.hourly?.time || [];
-                const prec: number[] = json?.hourly?.precipitation || [];
-                const cloud: number[] = json?.hourly?.cloudcover || [];
-                const idx = times.findIndex((t: string) => t === `${dateStr}T${String(hour).padStart(2,'0')}:00`);
-                if (idx >= 0) {
-                  const p = Number(prec[idx] ?? 0);
-                  const c = Number(cloud[idx] ?? 0);
-                  if (p > 0.2) cuaca = 'Hujan'; else if (c >= 70) cuaca = 'Berawan'; else if (c >= 30) cuaca = 'Cerah Berawan'; else cuaca = 'Cerah';
-                }
-              }
-            } catch {}
-          }
-          const exists = await prisma.model.findFirst({ where: { tanggal: updated.tanggal ?? undefined, titik: BigInt(tInt) } });
-          if (!exists) {
-            await prisma.model.create({ data: { tanggal: updated.tanggal!, jam: updated.jam ?? null, waktu, cuaca, jumlah_burung_pada_titik_x: null, titik: BigInt(tInt), fase: updated.fase ?? null, strike: '1' } });
-          }
-        }
-      }
-    } catch (e) { console.error('Auto-modeling after update error:', e); }
-
     return NextResponse.json({ success: true, data: serialize(updated) });
   } catch (error) {
     console.error('Error updating bird strike:', error);

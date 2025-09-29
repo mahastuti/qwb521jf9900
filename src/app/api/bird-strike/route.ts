@@ -56,9 +56,10 @@ export async function POST(request: NextRequest) {
     const fase = String(payload.fase ?? '').trim();
     const lokasi_perimeter = payload.lokasi_perimeter ? String(payload.lokasi_perimeter) : (outPhases.has(fase) ? 'Out' : inPhases.has(fase) ? 'In' : null);
 
-    const dokumentasi: string | null = (payload as any).dokumentasi ? String((payload as any).dokumentasi) : null;
+    const rawDoc = (payload as Record<string, unknown>)['dokumentasi'];
+    const dokumentasi: string | null = typeof rawDoc === 'string' ? rawDoc : null;
 
-    const created = await prisma.birdStrike.create({
+    let created = await prisma.birdStrike.create({
       data: {
         tanggal: payload.tanggal ? new Date(String(payload.tanggal)) : null,
         jam: payload.jam ? new Date(`1970-01-01T${String(payload.jam)}:00.000Z`) : null,
@@ -88,7 +89,7 @@ export async function POST(request: NextRequest) {
       const da = String(d.getUTCDate()).padStart(2, '0');
       const url = `https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/${y}${m}${da}.png`;
       await prisma.birdStrike.update({ where: { id: created.id }, data: { dokumentasi: url } });
-      (created as any).dokumentasi = url;
+      created = { ...created, dokumentasi: url };
     }
 
     const serialize = (value: unknown): unknown => {
@@ -371,7 +372,7 @@ export async function PUT(request: NextRequest) {
           }
           const exists = await prisma.model.findFirst({ where: { tanggal: updated.tanggal ?? undefined, titik: BigInt(tInt) } });
           if (!exists) {
-            await prisma.model.create({ data: { tanggal: updated.tanggal!, jam: updated.jam ?? null, waktu, cuaca, jumlah_burung_pada_titik_x: null, titik: BigInt(tInt), fase: updated.fase ?? null, strike: '1' } });
+            await prisma.model.create({ data: { tanggal: updated.tanggal!, jam: updated.jam ?? null, waktu, cuaca, rata_rata_burung_di_titik_x: null, titik: BigInt(tInt), fase: updated.fase ?? null, strike: '1' } });
           }
         }
       }

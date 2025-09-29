@@ -284,6 +284,7 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search') || '';
     const bulanFilter = (searchParams.get('bulan') || '').trim();
     const tahunFilter = (searchParams.get('tahun') || '').trim();
+    const skipCounts = searchParams.get('skipCounts') === '1';
 
     const sortOrderParam: SortOrder = (searchParams.get('sortOrder') === 'asc' ? 'asc' : 'desc');
     const sortByParam = (searchParams.get('sortBy') || 'id').trim();
@@ -321,7 +322,6 @@ export async function GET(request: NextRequest) {
       try { return await fn(); } catch (e) { console.error('prisma:error count()', e); return 0; }
     };
 
-    const total = 0;
     const safeFind = async <T>(fn: () => Promise<T>, fallback: T): Promise<T> => {
       try { return await fn(); } catch (e) { console.error('prisma:error find()', e); return fallback; }
     };
@@ -365,6 +365,9 @@ export async function GET(request: NextRequest) {
 
     const distinct = await safeFind(() => prisma.trafficFlight.groupBy({ by: ['bulan','tahun'] }), [] as Awaited<ReturnType<typeof prisma.trafficFlight.groupBy>>);
 
+    const total = skipCounts ? 0 : await safeCount(() => prisma.trafficFlight.count({ where }));
+    const totalAll = await safeCount(() => prisma.trafficFlight.count());
+
     const monthsSet = new Set<string>();
     const yearsSet = new Set<string>();
     for (const r of distinct) {
@@ -387,11 +390,10 @@ export async function GET(request: NextRequest) {
       return value;
     };
 
-    const totalAll = 0;
     return NextResponse.json({
       success: true,
       data: serialize(rows),
-      pagination: { page: 1, limit, total, totalAll, pages: Math.ceil(total / Math.max(1, limit)) },
+      pagination: { page: 1, limit, total, totalAll, pages: Math.ceil((total || 0) / Math.max(1, limit)) },
       pageInfo: { limit, hasMore, nextCursor },
       filters: { months, years }
     });

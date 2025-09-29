@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import type { Prisma } from '@prisma/client';
 
 type SortOrder = 'asc' | 'desc';
 
@@ -39,7 +40,7 @@ export async function GET(request: NextRequest) {
     const cursorParam = searchParams.get('cursor');
     const cursorId = cursorParam && /^\d+$/.test(cursorParam) ? BigInt(cursorParam) : null;
 
-    const orderBy = showDeleted ? ([{ deletedAt: 'desc' as const }, { id: 'desc' as const }]) : ({ id: sortOrder });
+    const orderByClause: Prisma.burung_bioOrderByWithRelationInput | Prisma.burung_bioOrderByWithRelationInput[] = showDeleted ? ([{ deletedAt: 'desc' }, { id: 'desc' }]) : ({ id: sortOrder });
 
     const orFilters: Record<string, unknown>[] = [];
     if (doSearch) {
@@ -78,7 +79,7 @@ export async function GET(request: NextRequest) {
 
     const items = await safeFind(() => prisma.burung_bio.findMany({
       where,
-      orderBy: orderBy as any,
+      orderBy: orderByClause,
       select: {
         id: true,
         longitude: true,
@@ -128,7 +129,7 @@ export async function GET(request: NextRequest) {
     };
 
     const enriched = data.map((r) => {
-      if (!(r as any)?.waktu && r.jam) {
+      if (!r.waktu && r.jam) {
         const hour = (r.jam as Date).getUTCHours();
         return { ...r, waktu: waktuFromHour(hour) } as typeof r;
       }

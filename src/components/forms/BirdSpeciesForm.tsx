@@ -48,7 +48,6 @@ export default function BirdSpeciesForm({ onSubmit, isSubmitting = false }: Bird
     return `${yyyy}-${mm}-${dd}`;
   };
   const today = new Date();
-  const baseDate = formatDate(today);
   const maxDateObj = new Date(today);
   maxDateObj.setDate(today.getDate() + 16);
   const maxDate = formatDate(maxDateObj);

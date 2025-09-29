@@ -299,7 +299,7 @@ export async function POST(request: NextRequest) {
       let tries = 0;
       while (tries < 2) {
         const res = await safeExec(() => prisma.trafficFlight.createMany({ data: chunk, skipDuplicates: false }));
-        if (res) { inserted += (res as any).count ?? 0; break; }
+        if (res) { inserted += (res as { count: number }).count ?? 0; break; }
         tries++;
       }
     }

@@ -88,7 +88,7 @@ model model {
   jam                        DateTime? @db.Time(6)
   waktu                      String?   @db.VarChar
   cuaca                      String?   @db.VarChar
-  jumlah_burung_pada_titik_x BigInt?   @map("jumlah burung pada titik x")
+  rata_rata_burung_di_titik_x BigInt? 
   titik                      BigInt?
   fase                       String?   @db.VarChar
   strike                     String?   @db.VarChar
