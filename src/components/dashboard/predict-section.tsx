@@ -206,7 +206,7 @@ export default function PredictSection() {
           <button
             onClick={handlePredict}
             disabled={loadingPredict}
-            className={`px-8 py-3 rounded-lg font-medium transition-colors text-white ${loadingPredict ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600'}`}
+            className={`px-6 py-2 rounded-lg font-medium transition-colors text-white ${loadingPredict ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600'}`}
           >
             {loadingPredict ? 'Memproses...' : 'Prediksi'}
           </button>

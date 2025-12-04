@@ -63,6 +63,7 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
   const [previewType, setPreviewType] = useState<'image' | 'pdf' | 'file' | null>(null);
   const modelingInitRef = useRef(false);
+  const [isSavingModel, setIsSavingModel] = useState(false);
 
   const fetchData = useCallback(async (signal?: AbortSignal) => {
     setLoading(true);
@@ -372,7 +373,7 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
   };
 
   const formatValue = (value: unknown, key: string): string => {
-    if (value === null || value === undefined) return '-';
+    if (value === null || value === undefined) return key === 'rata_rata_burung_di_titik_x' ? '' : '-';
     if (typeof value === 'string') {
       if (key === 'tanggal') {
         const d = new Date(value);
@@ -597,57 +598,6 @@ export default function DataTable({ dataType, exportScope = 'all' }: DataTablePr
                   <option value="traffic-flight">Traffic Flight</option>
                 </select>
               </label>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={async () => {
-                    if (!confirm('Hapus semua data Model?')) return;
-                    try {
-                      const res = await fetch('/api/data/modeling', { method: 'DELETE' });
-                      const js = await res.json();
-                      if (!res.ok || !js.success) throw new Error(js.message || 'Gagal menghapus');
-                      setMessage(`Terhapus: ${js.deleted}`);
-                      setTimeout(() => setMessage(''), 3000);
-                      const c = new AbortController();
-                      fetchData(c.signal);
-                    } catch (e) {
-                      console.error(e);
-                      setMessage('Gagal menghapus data model');
-                      setTimeout(() => setMessage(''), 3000);
-                    }
-                  }}
-                  className="border border-gray-300 px-3 py-2 h-9 rounded text-sm hover:bg-gray-50 flex items-center gap-2"
-                >
-                  <Trash2 className="w-4 h-4" />
-                  Clear Model
-                </button>
-                <button
-                  onClick={async () => {
-                    if (!confirm('Simpan hasil preprocessing ke Database (overwrite)?')) return;
-                    try {
-                      const res = await fetch('/api/data/modeling', { method: 'POST' });
-                      const js = await res.json();
-                      if (res.status === 409) {
-                        setMessage('Sedang berjalan, tunggu sebentar...');
-                        setTimeout(() => setMessage(''), 3000);
-                        return;
-                      }
-                      if (!res.ok || !js.success) throw new Error(js.message || 'Gagal menyimpan');
-                      setMessage(`Tersimpan. Dibuat: ${js.created}`);
-                      setTimeout(() => setMessage(''), 3000);
-                      const c = new AbortController();
-                      fetchData(c.signal);
-                    } catch (e) {
-                      console.error(e);
-                      setMessage('Gagal menyimpan model');
-                      setTimeout(() => setMessage(''), 3000);
-                    }
-                  }}
-                  className="px-4 py-2 h-9 rounded text-white bg-gradient-to-r from-[#72BB34] to-[#40A3DC] hover:opacity-90 text-sm flex items-center gap-2"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                  Save Model to DB
-                </button>
-              </div>
             </>
           )}
           <div className="flex items-center gap-2">

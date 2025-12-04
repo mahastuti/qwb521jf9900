@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import type { Prisma } from '@prisma/client';
@@ -723,8 +722,8 @@ export async function POST() {
 
     // Prepare bird species stats for fill_fix_with_b
     const species = await prisma.burung_bio.findMany({
-      where: { tanggal: { not: null }, jumlah_burung: { not: null }, waktu: { not: null }, titik: { not: null } },
-      select: { tanggal: true, jumlah_burung: true, waktu: true, titik: true }
+      where: { tanggal: { not: null }, jumlah_burung: { not: null } },
+      select: { tanggal: true, jumlah_burung: true, waktu: true, titik: true, cuaca: true }
     });
 
     type DailyMean = { _tanggal_dt: Date; mean_harian: number };
@@ -757,6 +756,26 @@ export async function POST() {
         randomDailyMeanByGroup.set(gKey, arr[idx].mean_harian);
       }
     }
+
+    // build meanByWaktu and global mean for relaxed fallback
+    const meanByWaktu = new Map<string, number>();
+    const valsByWaktu = new Map<string, number[]>();
+    for (const r of species) {
+      try {
+        const w = titleWaktu(String(r.waktu ?? ''));
+        const jb = Number(r.jumlah_burung ?? NaN);
+        if (!Number.isFinite(jb)) continue;
+        if (!valsByWaktu.has(w)) valsByWaktu.set(w, []);
+        valsByWaktu.get(w)!.push(jb);
+      } catch {}
+    }
+    let globalSum = 0; let globalCount = 0;
+    for (const [w, arr] of valsByWaktu.entries()) {
+      const sum = arr.reduce((s, x) => s + x, 0);
+      meanByWaktu.set(w, sum / arr.length);
+      globalSum += sum; globalCount += arr.length;
+    }
+    const globalMean = globalCount ? (globalSum / globalCount) : null;
 
     const hourly = await buildHourlyWeather();
 
@@ -963,6 +982,157 @@ export async function POST() {
     const merged: InsertRow[] = [...birdPrepared, ...tfPrepared];
 
 
+    // Compute rata_rata_burung_di_titik_x using species (df_b) per requested algorithm
+    const buildDateOnly = (d: Date) => new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+    // group species by multiple keys (titik|cuaca|waktu), (cuaca|waktu), (waktu), and keep full list
+    const speciesGroups = new Map<string, { tanggal: Date; jumlah: number }[]>();
+    const speciesGroupsByCuacaWaktu = new Map<string, { tanggal: Date; jumlah: number }[]>();
+    const speciesGroupsByWaktu = new Map<string, { tanggal: Date; jumlah: number }[]>();
+    const speciesAll: { tanggal: Date; jumlah: number; titik: number | null; waktu: string }[] = [];
+    for (const r of species) {
+      try {
+        const tInt = normTitik(String(r.titik));
+        const w = titleWaktu(String(r.waktu ?? ''));
+        const cu = normalizeCuaca(String(r.cuaca ?? ''));
+        const d = r.tanggal as Date | null;
+        const jb = Number(r.jumlah_burung ?? NaN);
+        if (!d || !Number.isFinite(jb)) continue;
+        const key = `${tInt}|${cu}|${w}`;
+        const arr = speciesGroups.get(key) || [];
+        arr.push({ tanggal: buildDateOnly(d), jumlah: jb });
+        speciesGroups.set(key, arr);
+        const k2 = `${cu}|${w}`;
+        const arr2 = speciesGroupsByCuacaWaktu.get(k2) || [];
+        arr2.push({ tanggal: buildDateOnly(d), jumlah: jb });
+        speciesGroupsByCuacaWaktu.set(k2, arr2);
+        const k3 = `${w}`;
+        const arr3 = speciesGroupsByWaktu.get(k3) || [];
+        arr3.push({ tanggal: buildDateOnly(d), jumlah: jb });
+        speciesGroupsByWaktu.set(k3, arr3);
+        speciesAll.push({ tanggal: buildDateOnly(d), jumlah: jb, titik: tInt, waktu: w });
+      } catch {}
+    }
+
+    // For each merged row, find candidates and nearest date average with relaxed fallbacks
+    const avgResults: (number | null)[] = [];
+    for (const row of merged) {
+      try {
+        const tVal = row.titik == null ? null : (typeof row.titik === 'bigint' ? Number(row.titik) : Number(row.titik));
+        const w = titleWaktu(String(row.waktu ?? ''));
+        const cu = normalizeCuaca(String(row.cuaca ?? ''));
+        const key = `${tVal}|${cu}|${w}`;
+        // exact (requires exact titik numeric match)
+        let candidates = speciesGroups.get(key) || [];
+        // Fallbacks: same titik + waktu (ignore cuaca)
+        if (!candidates.length && tVal != null) {
+          const partsMatch: { tanggal: Date; jumlah: number }[] = [];
+          for (const [k, arr] of speciesGroups.entries()) {
+            const parts = k.split('|');
+            if (parts.length !== 3) continue;
+            if (parts[0] === String(tVal) && parts[2] === w) partsMatch.push(...arr);
+          }
+          if (partsMatch.length) candidates = partsMatch;
+        }
+        // Fallback: same titik only
+        if (!candidates.length && tVal != null) {
+          const partsMatch: { tanggal: Date; jumlah: number }[] = [];
+          for (const [k, arr] of speciesGroups.entries()) {
+            const parts = k.split('|');
+            if (parts.length !== 3) continue;
+            if (parts[0] === String(tVal)) partsMatch.push(...arr);
+          }
+          if (partsMatch.length) candidates = partsMatch;
+        }
+        // Fallback: same cuaca + waktu (ignore titik)
+        if (!candidates.length) {
+          const k2 = `${cu}|${w}`;
+          const arr2 = speciesGroupsByCuacaWaktu.get(k2) || [];
+          if (arr2.length) candidates = arr2;
+        }
+        // Fallback: same waktu only
+        if (!candidates.length) {
+          const arr3 = speciesGroupsByWaktu.get(w) || [];
+          if (arr3.length) candidates = arr3;
+        }
+        // Final fallback: try mean by waktu or global mean first
+        if (!candidates.length) {
+          const m = meanByWaktu.get(w);
+          if (m != null) { avgResults.push(m); continue; }
+          if (globalMean != null) { avgResults.push(globalMean); continue; }
+          if (speciesAll.length) {
+            candidates = speciesAll.map(x => ({ tanggal: x.tanggal, jumlah: x.jumlah }));
+          }
+        }
+
+        if (!candidates.length) { avgResults.push(null); continue; }
+
+        const targetDate = buildDateOnly(row.tanggal);
+        let bestDiff = Number.POSITIVE_INFINITY;
+        for (const c of candidates) {
+          const diff = Math.abs(targetDate.getTime() - c.tanggal.getTime());
+          if (diff < bestDiff) bestDiff = diff;
+        }
+        const nearest = candidates.filter(c => Math.abs(targetDate.getTime() - c.tanggal.getTime()) === bestDiff);
+        if (!nearest.length) { avgResults.push(null); continue; }
+        const sum = nearest.reduce((s, x) => s + x.jumlah, 0);
+        const avg = sum / nearest.length;
+        avgResults.push(Number.isFinite(avg) ? avg : null);
+      } catch { avgResults.push(null); }
+    }
+
+    // Interpolate missing values per-titik group (simple linear interpolation by index within same titik)
+    const interpGroup = (arr: (number | null)[], groups: Map<number, number[]>) => {
+      const out = arr.slice();
+      for (const [tKey, indices] of groups.entries()) {
+        if (!indices.length) continue;
+        // build subarray
+        const sub = indices.map(i => out[i]);
+        const n = sub.length;
+        let i = 0;
+        while (i < n && (sub[i] == null || !Number.isFinite(Number(sub[i])))) i++;
+        if (i === n) {
+          // all null - leave as null
+          continue;
+        }
+        // fill leading with first known
+        for (let k = 0; k < i; k++) sub[k] = sub[i];
+        while (i < n) {
+          if (sub[i] != null && Number.isFinite(Number(sub[i]))) { i++; continue; }
+          const start = i - 1;
+          let j = i;
+          while (j < n && (sub[j] == null || !Number.isFinite(Number(sub[j])))) j++;
+          const end = j;
+          const left = Number(sub[start]);
+          const right = end < n ? Number(sub[end]) : left;
+          const gap = end - start;
+          for (let t = 1; t < gap; t++) {
+            const val = left + (right - left) * (t / gap);
+            sub[start + t] = val;
+          }
+          i = end;
+        }
+        // write back
+        for (let k = 0; k < indices.length; k++) out[indices[k]] = sub[k];
+      }
+      return out;
+    };
+
+    // build groups by titik numeric value
+    const groups = new Map<number, number[]>();
+    for (let i = 0; i < merged.length; i++) {
+      const rv = merged[i].titik == null ? NaN : (typeof merged[i].titik === 'bigint' ? Number(merged[i].titik) : Number(merged[i].titik));
+      const key = Number.isFinite(rv) ? rv : -1;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key)!.push(i);
+    }
+
+    const interpolated = interpGroup(avgResults, groups);
+
+    for (let idx = 0; idx < merged.length; idx++) {
+      const v = interpolated[idx];
+      merged[idx].rata_rata_burung_di_titik_x = v == null || !Number.isFinite(Number(v)) || Number.isNaN(Number(v)) ? null : BigInt(Math.round(Number(v)));
+    }
+
     const toInsert: InsertRow[] = merged;
 
     // Insert batched
@@ -984,10 +1154,12 @@ export async function POST() {
         const output = process.env.MODEL_OUTPUT || 'backend/models/model.cbm';
         const query = 'SELECT tanggal, jam, waktu, cuaca, rata_rata_burung_di_titik_x, titik, fase, strike FROM model';
         const args = ['--output', output, '--query', query];
-        const envVars = { ...process.env, MODEL_TYPE: process.env.MODEL_TYPE || 'random_forest' } as Record<string,string>;
-        const proc = spawn(python, [script, ...args], { detached: true, stdio: 'ignore', env: envVars });
+        const modelType = process.env.MODEL_TYPE || 'random_forest';
+        const nodeEnv = (process.env.NODE_ENV as 'development' | 'production' | 'test' | undefined) || 'production';
+        const envVars: NodeJS.ProcessEnv = { ...process.env, NODE_ENV: nodeEnv, MODEL_TYPE: modelType };
+        const proc = spawn(python, [script, ...args], { detached: true, stdio: 'ignore', env: envVars }) as import('child_process').ChildProcess;
         try { proc.unref(); } catch {}
-        console.log('Triggered background training:', script, 'MODEL_TYPE=', envVars.MODEL_TYPE);
+        console.log('Triggered background training:', script, 'MODEL_TYPE=', modelType);
       } catch (e) {
         console.error('Failed to trigger training script:', e);
       }

@@ -28,7 +28,27 @@ model burung_bio {
   deletedAt     DateTime? @db.Timestamp(6)
 }
 
-model BirdStrike {
+model burung_bio_deleted {
+  id            BigInt    @id @default(autoincrement())
+  longitude     String?   @db.VarChar
+  latitude      String?   @db.VarChar
+  lokasi        String?   @db.VarChar
+  titik         String?   @db.VarChar
+  tanggal       DateTime? @db.Date
+  jam           DateTime? @db.Time(6)
+  waktu         String?
+  cuaca         String?
+  jenis_burung  String?
+  nama_ilmiah   String?
+  jumlah_burung Int?
+  keterangan    String?
+  dokumentasi   String?
+  createdAt     DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime? @updatedAt @db.Timestamp(6)
+  deletedAt     DateTime? @db.Timestamp(6)
+}
+
+model bird_strike {
   id                  BigInt    @id @default(autoincrement())
   tanggal             DateTime? @db.Date
   jam                 DateTime? @db.Time(6)
@@ -51,11 +71,34 @@ model BirdStrike {
   deletedAt           DateTime?
   jenis_pesawat       String?
   titik               String?
-
-  @@map("bird_strike")
 }
 
-model TrafficFlight {
+model bird_strike_deleted {
+  id                  BigInt    @id @default(autoincrement())
+  tanggal             DateTime? @db.Date
+  jam                 DateTime? @db.Time(6)
+  waktu               String?
+  fase                String?
+  lokasi_perimeter    String?
+  kategori_kejadian   String?
+  remark              String?
+  airline             String?
+  runway_use          String?
+  komponen_pesawat    String?
+  dampak_pada_pesawat String?
+  kondisi_kerusakan   String?
+  tindakan_perbaikan  String?
+  sumber_informasi    String?
+  deskripsi           String?
+  dokumentasi         String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  deletedAt           DateTime?
+  jenis_pesawat       String?
+  titik               String?
+}
+
+model traffic_flight {
   id                   BigInt  @id @default(autoincrement())
   no                   Int?
   act_type             String? @db.VarChar
@@ -77,8 +120,30 @@ model TrafficFlight {
   f_stat               String? @db.VarChar
   bulan                String? @db.VarChar
   tahun                String? @db.VarChar
+}
 
-  @@map("traffic_flight")
+model traffic_flight_deleted {
+  id                   BigInt  @id @default(autoincrement())
+  no                   Int?
+  act_type             String? @db.VarChar
+  reg_no               String? @db.VarChar
+  opr                  String? @db.VarChar
+  flight_number_origin String? @db.VarChar
+  flight_number_dest   String? @db.VarChar
+  ata                  String?
+  block_on             String
+  block_off            String
+  atd                  String?
+  ground_time          String? @db.VarChar
+  org                  String? @db.VarChar
+  des                  String? @db.VarChar
+  ps                   String? @db.VarChar
+  runway               String? @db.VarChar
+  avio_a               String? @db.VarChar
+  avio_d               String? @db.VarChar
+  f_stat               String? @db.VarChar
+  bulan                String? @db.VarChar
+  tahun                String? @db.VarChar
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
