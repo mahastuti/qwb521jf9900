@@ -1,0 +1,726 @@
+tanggal,jam,waktu,fase,lokasi_perimeter,titik,kategori_kejadian,airline,runway_use,komponen_pesawat,dampak_pada_pesawat,kondisi_kerusakan,tindakan_perbaikan,sumber_informasi,remark,deskripsi,dokumentasi,jenis_pesawat
+2019-02-17T00:00:00.000Z,1970-01-01T12:15:00.000Z,,Approach,Out,,Bird Strike,Air Asia,,Kaca kokpit,,Kaca kokpit rusak,"- Memberikan tanggapan surat keluar GM
+- Melaporkan kejadian melalui IMSIS","QZ696/PK-AXF/A320
+Air Asia",Terkonfirmasi,Approach (Near Airport),https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20190217.png,Airbus
+2019-03-24T00:00:00.000Z,,,,,,Bird Strike,Citilink,,,Beberapa pesawat diholding ± 10 menit,,Reply surat dari Citilink,"-/PK-GQD/-
+Citilink",Tidak Terkonfirmasi,Birdstrike pada pesawat Citilink PK-GQD (tidak terkonfirmasi),https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20190324.png,Boeing
+2019-06-05T00:00:00.000Z,1970-01-01T17:42:00.000Z,,Approach,Out,,Bird Strike,Silk Air,,,,,,"MI226/9V-MGQ/B737
+Silk Air",Tidak Terkonfirmasi,Pesawat Silk Air B 737 9V-MGQ rute SIN - SUB terjadi Birdstrike during aprroach and landing (Non Konfirmasi),https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20190605.png,Boeing
+2019-06-09T00:00:00.000Z,1970-01-01T09:18:00.000Z,,Approach,Out,,Bird Strike,Singapore Airlines,,,,,,"SQ930/9V-STU/A330
+Singapore Airline",Terkonfirmasi,Pesawat Singapura Airline A330 9V-STU rute SIN - SUB terjadi Birdstrike on Aprroach,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20190609.png,Airbus
+2020-01-10T00:00:00.000Z,1970-01-01T10:35:00.000Z,,Take Off,In,,Bird Strike,Citilink,10,Wind Shield rusak,Wind Shield rusak,,,"CTV - 715/PK-GQM
+Citilink",Terkonfirmasi,Pilot melaporkan terjadi serangan Birdstrike pada saat takeoff dan memutuskan kembali ke apron. Takeoff dari runway 10 pada ketinggian 500 feet,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20200110.png,Boeing
+2020-01-27T00:00:00.000Z,1970-01-01T19:55:00.000Z,,Landing,In,,Bird Strike,Batik Air,10,Radome rusak,Radome rusak,,,"ID 7519/PK-LUO
+Batik Air",Terkonfirmasi,"Teknisi melapokan kerusakan pada bagian pesawat (radome), konfirmasi dari pilot terkena serangan burung. Landing dari rwy 10 pada ketinggian 200 feet",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20200127.png,Airbus
+2021-01-01T00:00:00.000Z,1970-01-01T08:23:00.000Z,,Take Off,In,,Bird Strike,Citilink,28,Engine,,,,"PK-GLM/QG 694/A 320 
+Citilink
+
+'Takeoff dari runway 28 pada ketinggian 200 feet",Terkonfirmasi,Dua blade engine no 2 rusak (bengkok),https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20210101.png,Airbus
+2021-02-15T00:00:00.000Z,1970-01-01T06:59:00.000Z,,Landing,In,,Bird Strike,Citilink,28,,,,,"PK-GLO/QG 714/A 320 
+Citilink
+
+Landing dari runway 28 pada ketinggian 500 feet",Terkonfirmasi,Tidak ada kerusakan tetapi ditemukan bercak darah pada bagian radome pesawat,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20210215.pdf,Airbus
+2021-02-18T00:00:00.000Z,1970-01-01T10:00:00.000Z,,Landing,In,,Bird Strike,Scoot Airlines,10,,,,,"TR264 / 9V-TRH / Airbus 320
+Fly Scoot
+
+Landing dari runway 10 pada ketinggian 250 feet",Tidak Terkonfirmasi,,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20210318.pdf,Airbus
+2021-03-25T00:00:00.000Z,1970-01-01T18:32:00.000Z,,Landing,In,,Bird Strike,Citilink,10,,,,,"TV720 / A320 /PK GLR
+Citilink
+
+Landing dari runway 10 pada permukaan runway",Tidak Terkonfirmasi,"CTV720 / A320 / CGK – SUB / PK GLR LANDING RWY 10 AFTER LANDED REPORT Birdstrike DURING LANDING OVER RUNWAY , 11.35 DI CHECK COMMANDO TIDAK DITEMUKAN BANGKAI BURUNG RUNWAY CLEAR (PHASE FLIGHT : LANDING)",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20210325.png,Airbus
+2021-04-15T00:00:00.000Z,1970-01-01T14:00:00.000Z,,Landing,In,,Bird Strike,Scoot Airlines,10,Engine,,,,"TR262 / 9V-TRH / Airbus 320
+Fly Scoot 
+
+Landing dari runway 10 pada ketinggian 100 feet",Tidak Terkonfirmasi,"Inspection by engineer revealed a small stain at radome. 
+No damage to the aircraft were found",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20210415.png,Airbus
+2021-04-24T00:00:00.000Z,1970-01-01T09:45:00.000Z,,Landing,In,,Bird Strike,Scoot Airlines,10,Engine,,,,"TR262 / 9V-TRH / Airbus 320
+Fly Scoot 
+
+Landing dari runway 10 pada ketinggian 100 feet",Terkonfirmasi,Description from eReport FLT34-21 Birdstrike found on radome ,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20210424.png,Airbus
+2021-04-26T00:00:00.000Z,1970-01-01T18:05:00.000Z,,Landing,In,,Bird Strike,Garuda Indonesia,10,Cabin Door,,,,"PK-GFC/GA 341/B 737-800 NG
+Garuda Indonesia
+
+Landing pada runway 10 pada ketinggian 200 feet",Terkonfirmasi,Terdapat bercak darah di body pesawat,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20210426.png,Boeing
+2021-05-05T00:00:00.000Z,1970-01-01T07:22:00.000Z,,Landing,In,,Bird Strike,Wings Air,10,,,,,"PK-WHG/IW1970/ATR 72-600
+Wings Air
+
+Landing dari runway 10 pada permukaan runway",Tidak Terkonfirmasi,,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20210505.png,ATR
+2021-05-06T00:00:00.000Z,1970-01-01T07:30:00.000Z,,Landing,In,,Bird Strike,Susi Air,10,,,,,"PK VVM/C208/CESSNA 208B
+Susi Air
+
+Takeoff dari runway 10 pada permukaan runway",Tidak Terkonfirmasi,PKVVM ROLLING D/T BRIDSTRIKE REQ BACK TO APRON TAXI VI N5 TIME 0030 REQ START AND TIME 0037 AIRBONE,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20210506.png,Cessna
+2021-05-09T00:00:00.000Z,1970-01-01T09:45:00.000Z,,Landing,In,,Bird Strike,Scoot Airlines,10,,,,,"TR262 / 9V-TRM / Airbus 320
+Fly Scoot
+
+Landing dari runway 10 pada ketinggian 150 feet",Tidak Terkonfirmasi,,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20210509.png,Airbus
+2021-05-16T00:00:00.000Z,1970-01-01T10:44:00.000Z,,Take Off,In,,Bird Strike,Scoot Airlines,10,Wind Shield,,Wind shield mengalami kerusakan,,"TR263 / 9V-TRM /Airbus 320
+Fly Scoot
+
+Takeoff dari runway 10 pada ketinggian 250 feet",Terkonfirmasi,,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20210516.pdf,Airbus
+2021-07-30T00:00:00.000Z,1970-01-01T09:48:00.000Z,,Landing,In,,Bird Strike,Scoot Airlines,10,,,Bercak darah pada fuselage,,"9VTRC/TRV262/Airbus 320
+Fly Scoot
+
+Landing dari runway 10 pada ketinggian 150 feet",Terkonfirmasi,,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20210730.png,Airbus
+2021-10-06T00:00:00.000Z,1970-01-01T12:13:00.000Z,,Landing,In,,Bird Strike,Cathay Pasific,10,Wind Shield,,Bercak darah pada wind shield,,"CX2779/Airbus 330
+Cathay Pasific
+
+Landing pada runway 10 pada ketinggian 100 feet",Terkonfirmasi,,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20211006.png,Airbus
+2022-01-07T00:00:00.000Z,,,Final,Out,,Bird Strike,Citilink,10,,,,"- Memberikan tanggapan surat keluar GM
+- Melaporkan kejadian melalui IMSIS","Surat PT Citilink Indonesia Nomor : CITILINK/JKTDVQG/LTR-1011/I/2022 Tanggal 11 Januari 2022 
+
+Landing dari runway 10  pada ketinggian 70 feet",Tidak Terkonfirmasi,"CTV - 435 Had experienced Birdstrike on final approach runway 10 SUB. The bird hit nose/radome area approximately 70 feet and it reported to Tower. During block on, crew informing the engineer on duty of the Birdstrike event and after the aircraft thoroughly inspected no damage has been found",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20220107.png,Airbus
+2022-03-31T00:00:00.000Z,,,Take Off,In,,Bird Strike,Citilink,28,,,,Reply surat dari Citilink,"Surat PT Citilink Indonesia Nomor : CITILINK/JKTDVQG/LTR-1046/I/2022 Tanggal 4 April 2022 
+
+Takeoff dari runway 28 pada ketinggian 50 feet",Tidak Terkonfirmasi,CTV‐698 had experienced Birdstrike during climb from runway 28 SUB. A small of bird hit windshield at around 50 feet. No damage was found on the windshield.,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20220331.png,Airbus
+2025-01-06T00:00:00.000Z,1970-01-01T18:17:00.000Z,,Landing,In,1.00,Bird Strike,Cathay Pasific,10,Nose,,Continue Flight,,Email Cathay,Terkonfirmasi,"CATHATY PASIFIC AIRLINES
+Birdstrike HIT AT LEAST TWO BIRDS ON LANDING. AT LOWER NOSE AREA  AND NOSE GEAR. SMALL SIZE BIRD.  Phase of Flight: Landing",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250106.png,Airbus
+2022-04-20T00:00:00.000Z,1970-01-01T05:30:00.000Z,,Take Off,In,,Bird Strike,Air Asia,,,Pesawat grounded dan 2 rute keberangktan mengalami penundaan (postponed) : SUB - KUL QZ324 & SUB-LOP QZ641 menjadi tgl 21 April 2022,,,"Surat PT Indonesia Air Asia Nomor : IAA/GOP/SH-SUB/053/IV/2022
+
+Takeoff dari runway 10 pada ketinggian 100 feet",Terkonfirmasi,Pesawat air asia rute SUB- KUL QZ234 PK- AXY A320 pada tanggal 20 April 2022 mengalami  Birdstrike setelah Take Off sehingga RTB,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20220420.jpeg,Airbus
+2022-04-29T00:00:00.000Z,1970-01-01T19:05:00.000Z,,Landing,In,,Bird Strike,Air Asia,10,,Pesawat harus Aircraft in Ground (AOG),,,"Surat PT Indonesia Air Asia Nomor : IAA/GOP/SH-SUB/061/V/2022
+
+Landing dari  runway 10 pada permukaan runway ",Terkonfirmasi,Pesawat air asia rute DPS-SUB QZ628 PK- AZN A320 pada tanggal 29 April 2022 mengalami  Birdstrike setelah proses landing roll,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20220429.png,Airbus
+2022-05-18T00:00:00.000Z,1970-01-01T09:20:00.000Z,,Take Off,In,,Bird Strike,Lion Air,10,,Penumpang di turunkan kembali ke gate.pax akan di alihkan menggunakan pesawat di stand 21 PK LGQ,,,"Surat PT Lion Air Nomor : 078/JKTDSJT/EXT/V/2022
+
+Takeoff dari runway 10 pada ketinggian 500 feet",Terkonfirmasi,"Pesawat lion air  rute SUB - UPG JT800 PK-LHR B739 pada tanggal 18 Mei 2022 mengalami error terhadap alat (instrument) penunjuk ketinggian dan kecepatan sesaat setelah lepas landas di landasan pacu nomor 10 dengan kurang lebih ketinggian 500 feet, pilot memutuskan untuk kembali ke Bandara Juanda dan pesawat mendarat dengan selamat. Setelah dilakukan inspeksi oleh team engineer ditemukan kondisi alat pengukur kecepatan pesawat (pilot tube) ter-block oleh burung",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20220518.png,Boeing
+2022-05-21T00:00:00.000Z,1970-01-01T19:05:00.000Z,,Landing,In,,Bird Strike,Air Asia,10,Engine,,,,"Surat PT Indonesia Air Asia Nomor : IAA/GOP/SH-SUB/068/V/2022
+
+Landing dari runway 10 pada permukaan runway",Terkonfirmasi,"Pesawat air asia rute DPS-SUB QZ628 PK- AZO A320 pada tanggal 29 Mei 2022 mengalami  Birdstrike, hal ini diketahui setelah proses landing roll dan dilakukan pengecekan oleh teknisi  ",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20220521.png,Airbus
+2022-06-18T00:00:00.000Z,1970-01-01T08:35:00.000Z,,Landing,In,,Bird Strike,Air Asia,10,,,,,"Surat PT Indonesia Air Asia Nomor : IAA/GOP/SH-SUB/084/VI/2022
+
+Landing runway 10 pada permukaan runway",Tidak Terkonfirmasi,"Pesawat air asia rute LOP-SUB QZ640 PK- AZI A320 pada tanggal 18 Juni  2022 mengalami  Birdstrike, hal ini diketahui setelah proses landing roll dan dilakukan pengecekan oleh teknisi",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20220618.png,Airbus
+2022-06-23T00:00:00.000Z,1970-01-01T15:35:00.000Z,,Landing,In,,Bird Strike,Saudi Arabian,10,Wing,,,,"Email saudi arabian airline kepada GM Bandara Juanda
+
+Landing dari runway 10 pada permukaan runway",Terkonfirmasi,"Pesawat saudia arabian airline rute SUB-MDN SV4169 9H- AZB B747-400 pada tanggal 23 Juni 2022 mengalami  kejadian serangan burung (Birdstrike), hal ini diketahui setelah proses landing roll dan dilakukan pengecekan oleh Mekanik Saudi Arabian Airline dimana menemukan 5 titik yang diduga terkena serangan burung (Birdstrike) masing-masing pada bagian pesawat diantaranya:
+01 on Leading Edge (L/E) of RH wing,
+01 on Trailing Edge (T/E) Flaps,
+03 on T/E of flaps - RH wing",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20220623.png,Boeing
+2022-06-13T00:00:00.000Z,1970-01-01T17:58:00.000Z,,Landing,In,,Bird Strike,Batik Air,10,Wind Shield,"Recovery Plan:
+- Change Aircraft use and waiting from ex-8137 UPG-SUB, PK-LUZ Eta SUB 18.50LT
+
+Conseq Delay:
+- ID 6593 PK-LDJ STD 18.10LT, ATA 19.35LT delay 85 menit due to waiting change aircraft from EX-ID 8317 UPG-SUB ETA 18.50LT",,,"Surat Batik AIr Nomor : 009/DSIS/EXT/VI/2022
+
+Landing dari runway 10 pada permukaan runway",Terkonfirmasi,"Versi Laporan WA :
+Technical Report, 13 June 2022
+- After block on pukul 17.58LT, PK-LDJ (B737-800) as ID6594 CGK-SUB STD dan saat teknik walk around ditemukan adanya bekas Birdstrike pada bagian pitot.
+Aircraft Technical due to Pitot Birdstrike
+
+PIC: PIERE CONDRO
+PAX: C : 12/00/00
+          Y : 143/01/02
+
+Reason:
+- Aircraft Technical (AOG) due to Pitot Birdstrike
+
+Versi Laporan Surat :
+BTK6594 departed from Soekarno Hatta International Airport (WIII) to Juanda International Airport (WARR).
+The aircraft landed on Runway 10 at WARR. During the landing roll below 100 knots, IAS Disagree appeared momentarily both on Captain’s and FO’s side. After vacating the runway, IAS Disagree disappeared. The Flight Crew didn't see any bird activity on the runway due to dusk time environment
+After parked, the Flight Crew reported to the Engineers, then they found that there was a Birdstrike on Pitot Probe Captain’s side. The engineers decided that the aircraft need to be AOG for further maintenance action.
+
+",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20220613.png,Boeing
+2022-06-12T00:00:00.000Z,1970-01-01T13:45:00.000Z,,Landing,In,,Bird Strike,Malaysia Airlines,10,,,,,Email Malaysia Airline kepada Juanda.Safety@gmail.com,Tidak Terkonfirmasi,"Upon Landing Runway 10, Birdstrike was encountered between 1000m-1500m of runway. Inspection done by engineer. Aircraft is good.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20220612.png,
+2022-08-30T00:00:00.000Z,1970-01-01T15:15:00.000Z,,Take Off,In,,Bird Strike,Citilink,10,Engine,Pesawat AOG,,,Surat PT Indonesia Air Asia Nomor : IAA/GOP/SH-SUB/143/XI/2022,Terkonfirmasi,"Pesawat air asia rute SUB-DPS QZ629 PK- AZO A320  mengalami  Birdstrike, hal ini diketahui setelah dilakukan pengecekan oleh teknisi di denpasar setelah proses landing sehingga pesawar harus AOG",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20220830.jpeg,Airbus
+2022-08-31T00:00:00.000Z,1970-01-01T18:12:00.000Z,,Landing,In,,Bird Strike,Citilink,10,Engine,,,,Surat PT Citilink Indonesia,Terkonfirmasi,"Ijin menginformasikan telah terjadi Birdstrike pada saat landing dengan data sebagai berikut :
+
+Citilink
+QG-720 / PK GQD
+Rute : CGK - SUB
+B.On : 18.12 LT
+PS : 05A
+Pax : 176 (167/07/02)
+Bag : 1071 Kg
+Car : 566 Kg
+PIC : Djoly
+
+Setelah dilakukan pemeriksaan oleh teknik, tidak ditemukan adanya kerusakan pada pesawat, dan lanjut dilakukan pembersihan",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20220831.jpeg,Airbus
+2023-01-20T00:00:00.000Z,,,Landing,In,,Bird Strike,Air Asia,,,,,,Surat Station Manager Surabaya PT Indonesia Air Asia Nomor: IAA/GOP/SH-SUB/008/I/2023 Perihal Pemberitahuan Kejadian Birdstrike Pesawat PK-AZN,Terkonfirmasi,BERDASARKAN SURAT STATION MANAGER PT INDONESIA AIR ASIA NOMOR: IAA/GOP/SH-SUB/018/I/2023 BAHWA PESAWAT UDARA RUTE KUL-SUB PADA TANGGAL 20 JANUARI 2023 MENGALAMI BIRDSTRIKE. HAL TERSEBUT DIKETAHUI SETELAH PROSES LANDING DAN DILAKUKAN PENGECEKAN OLEH TEKNISI.,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20230120.png,Airbus
+2023-02-03T00:00:00.000Z,1970-01-01T01:23:00.000Z,,Take Off,In,,Bird Strike,Lion Air,,,,,,Surat General Manager Perum LPPNPI Cabang Surabaya Nomor: 067/G/06/LPPNPI/KLH.05/II/2023 Perihal Penyampaian Laporan Kejadian Birdstrike di Bandar Udara Juanda,Tidak Terkonfirmasi,LAPORAN DARI AIRNAV TANGGAL 3 FEBRUARI 2023 BAHWA TELAH TERJADI BIRDSTRIKE PUKUL 13.23 UTC LNI 780 SETELAH AIRBORNE SAAT Take Off. SETELAH DILAKUKAN RUNWAY INSPECTION TIDAK DITEMUKENALI BANGKAI BURUNG DI RUNWAY,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20230203.png,
+2023-02-11T00:00:00.000Z,1970-01-01T05:30:00.000Z,,Landing,In,,Bird Strike,Airfast,28,,,,,Laporan dari AMC tanggal 11 Februari 2023,Tidak Terkonfirmasi,"05.30 Flight Airfast AFE 221 landing dari CGK menggunakan runway 28 dan exit via taxiway N2
+05.31 AMC on Duty mendengar percakapan komunikasi Tower dengan PIC AFE 221 di frekuensi 118.3 bahwa mengalami Birdstrike ketika berada di runway 28 
+05.33 Tower menghubungi team landasan via HT untuk meminta bantuan pengecekan area runway 28 untuk antisipasi adanya FOD
+05.36 
+Pesawat Airfast PK-OCS block on di PS B 09
+Team landasan segera merespon untuk pengecekan runway menggunakan 1 mobil landasan dan 1 mobil sweepers untuk menyisir area
+05.40 AMC berkoordinasi dengan teknik Airfast di Parking Stand B 09. Hasil pemeriksaa oleh teknik ditemukan adanya bercak darah burung dan tidak ada dampak kerusakan yang ditimbulkan terhadap pesawat. Kondisi pesawat serviceable
+05.47 Hasil yang diinformasikan dari Dinas Landasan dalam pelaksanaan penyisiran di runway 28 ditemukan 7 bangkai burung dan sudah diamankan, landasan keluar runway",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20230211.png,Boeing
+2023-02-11T00:00:00.000Z,1970-01-01T18:59:00.000Z,,Landing,In,,Bird Strike,Royal Brunei,28,,,,,Laporan dari AMC tanggal 11 Februari 2023,Terkonfirmasi,"18:59
+Pesawat Royal Brunei dengan rute Bandar Seribegawan (BWN) mendarat di SUrabaya (SUB) dengan menggunakan RW 28",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20230211.png,Airbus
+2023-03-09T00:00:00.000Z,,,Landing,In,,Bird Strike,Citilink,,Engine,,,,"Surat Director of Corporate Safety nomor: 005/CS/IAA/III/2023 Perihal Laporan Insiden Bird
+Strike tanggal 10 Maret 2023",Terkonfirmasi,"Berkaitan dengan kejadian Birdstrike pada tanggal 9 Maret 2023 pada armada 
+PK-AZL, nomor penerbangan QZ 321 dari Kuala Lumpur. laporan dari Team Engineering pada saat inspeksi / transit check. Dari hasil observasi
+tersebut, ditemukan sebagian potongan bangkai burung yang menempel di beberapa bagian
+fan blades, dan menurut hasil assessment, tidak ada bagian yang rusak, dan pesawat
+dinyatakan layak terbang.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20230309.jpg,Airbus
+2023-03-16T00:00:00.000Z,,,Landing,In,,Bird Strike,Citilink,,Engine,,,,Surat Director of Corporate Safety nomor: 007/CS/IAA/III/2023 Perihal Laporan Insiden Birdstrike tanggal 20 Maret 2023.,Terkonfirmasi,"Berkaitan dengan kejadian Birdstrike pada tanggal 16 Maret 2023 pada armada PK-AZL, nomor penerbangan QZ 8298 dari Kuala Lumpur, Laporan dari Team Engineering pada saat inspeksi / transit check. Dari hasil observasi tersebut, ditemukan sebagian potongan bangkai burung yang menempel di beberapa bagian fan blades, dan menurut hasil assessment, tidak ada bagian yang rusak, dan pesawat dinyatakan layak terbang, walaupun diharuskan untuk melakukan inspeksi visual dengan Borescope untuk 10 Flight Cycle ke depan.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20230316.jpg,Airbus
+2023-04-14T00:00:00.000Z,,,Landing,In,,Bird Strike,Citilink,28,,,,,"Surat Head of Corporate Safety, Security, Quality & Environment Nomor : Citilink/JKTDVQG/LTR-2055/IV/2023 Perihal Laporan Birdstrike & Bird Activity Hazard ",Terkonfirmasi,"1. After fully parked at P.8 SUB Airport, there were
+bloodstains, meat, and bird wings were discovered in the
+nose wheel area and aircraft lights.
+2. The engineer on duty was conducted a search and
+inspection of the inside of the nose wheel.
+3. The engineer suggested that a collision might have
+occurred in the air.
+4. Technical engineer Fajar reported that the aircraft was in
+good condition and no problems were found.
+5. The bird debris was deemed cleanable.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20230414.png,Airbus
+2023-05-18T00:00:00.000Z,1970-01-01T17:33:00.000Z,,Landing,In,,Bird Strike,Singapore Airlines,10,Wing,,,,Nota Dinas Airport Operation and Services Senior Manager No. : SUB.AO.0536/KB.02.01/2023-B,Terkonfirmasi,"Pukul 17.33 WIB Flight Singapore Airlines dengan nomor penerbangan SQ-928 rute SIN-SUB landing menggunakan runway 10 dan exit via taxiway S4
+Pukul 17.39 WIB Pesawat SQ-928 registrasi 9V_MBN type pesawat B738 block on di PS.A08
+Setelah melakukan pelayanan aviobridge, personil AMC melihat teknik JAS (a.n. Wahyu Sambodo) sedang melakukan pengecekan di bagian sayap sebelah kiri pesawat dan mengindikasikan pesawat terkena Birdstrike karena ditemukan adanya bercak darah burung namun tidak ada dampak kerusakan yang ditimbulkan terhadap pesawat. Selanjutnya hanya dilakukan pembersihan dan konsisi pesawat dinyatakan serviceable",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20230518.png,Boeing
+2023-06-03T00:00:00.000Z,1970-01-01T17:42:00.000Z,,Landing,In,,Bird Strike,Cathay Pasific,10,,"Due To Inspeksi Runway
+Holding Arrival : Holding Departure :
+1. LNI 261 BPN-SUB 1. BTK 6597 (Hold di threshold RW 10)
+2. LNI 801 DPS-SUB
+3. LNI 696 CGK-SUB",,,Nota Dinas Airport Operation and Services Senior Manager No. : ,Terkonfirmasi,"Pukul 17.42 LT Sesaat setelah Cathay Pacific landing, personil AMC mendengar
+percakapan antara PIC Cathay Pacific dan petugas Tower bahwa pesawat Cathay Pacific terkena birdstrike saat mendarat via runway 10.
+17:43 LT Petugas Tower kontak ARFF on duty via HT untuk dilakukan penyisiran di area runway 10
+17:48 LT Setelah dilakukan penyisiran, ARFF dengan mobil Comando melaporkan tidak ditemukan adanya bangkai burung di sekitar area runway 10, runway dinyatakan clear
+17:50 LT Pesawat Cathay Pacific B-LAQ Blok On di PS.A08 Terminal 2
+17:54 LT Setelah dilakukan pengecekan oleh engineer, ditemukan beberapa titik bercak darah burung dan tidak ada dampak kerusakan yang ditimbulkan terhadap pesawat. Dilakukan pembersihan dan kondisi pesawat dinyatakan serviceable.
+",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20230603.png,Airbus
+2023-06-14T00:00:00.000Z,1970-01-01T11:04:00.000Z,,Final,Out,,Bird Strike,Garuda Indonesia,,,,,,Laporan via WhatsApp,Tidak Terkonfirmasi,"11.04 SIA928 landing and info to TWR got birdstrike while landing. Twr give instruction GIA349 position final for go around due to FOD. ATCo info to "" Team Landasan"" for rwy inspection.  
+A/C arrival holding : 
+1. GIA349/ DD-RR
+2. SJV332/ II-RR
+11.11 Team Landasan report not found carcass on rwy, then rwy open.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20230614.jpg,Boeing
+2023-06-14T00:00:00.000Z,1970-01-01T17:52:00.000Z,,Landing,In,,Bat Strike,Cathay Pasific,,Nose,,,,Laporan via WhatsApp,Terkonfirmasi,"Birdstrike pada Cathay Pacific sebagian besar terkena pada bagian nose wheel,dan indikasi hewannya sebagian besar kelelawar.untuk part dari pesawat yg terkena Birdstrike masih normal serviceable.berikut juga data flight setelah cathy pacific landing (17.52 LT):
+
+●Arr flight :
+- LNI 223//17:55LT
+- CTV 736//17:59LT
+- CTV 172//18:02LT
+- GA 349//18:27LT
+- SIA 928//18:09LT
+- SJV 332//18:24LT
+- GIA 326//18:30LT
+- CTV 435//18:36LT 
+
+●Dept Flight
+-LNI 920 //18:20LT
+-LNI 366// 18:18LT
+-BTK 6583 //18:30LT",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20230614.pdf,Airbus
+2025-02-09T00:00:00.000Z,1970-01-01T16:10:00.000Z,,Landing,In,8.00,Bird Strike,Lion Air,10,Engine,,Continue Flight,,Laporan Whatsapp,Terkonfirmasi,"LION AIR
+PK-LVF JT697 KOE-SUB : confirmed Birdstrike (continue flight)",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250209.png,Boeing
+2023-06-18T00:00:00.000Z,1970-01-01T17:46:00.000Z,,Landing,In,,Bird Strike,Cathay Pasific,,Nose,"Flight Terdampak inspeksi RWY
+■ Go Round 
+▪︎QG 718// CGK - SUB //STA 18.05 LT//ATA 18.06 LT
+
+■ Holding
+▪︎ QG 172//HLP - SUB//STA 18.20 LT//ATA 18.00 LT
+
+■ Hold push back
+▪︎ ID 6593//SUB - CGK//STD 17.10 LT//ATD 18.02 LT
+",,,Laporan via WhatsApp,Terkonfirmasi,"Ijin Menyampaikan untuk di ketahui pada :
+18 Juni 2023
+Flight Birdstrike
+Kronologis :
+● Jam 17.46 LT tower kontak team ARFF(Comando) untuk melakukan inspeksi Rwy setelah adanya info Birdstrike dr crew Chathy.Comando menyisir RWY dari 10 ke 28.
+● Jam 17.53 LT .Team ARFF (Comando) menyatakan tidak di temukan bangkai burung dan di nyatakan RWY clear.
+
+■ Data flight :
+●Chathy Pasific
+●Type : A333
+● Req : B LAZ
+● STA : 18.00
+● B.on : 17.52
+● Rwy in use 10
+Note : informasi dari teknik Chaty di temukan bercak darah pada bagian nose dan sayap sebelah kanan.kondisi peswat service able.
+
+",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20230618.pdf,Airbus
+2023-06-23T00:00:00.000Z,,,Landing,In,,Bat Strike,Cathay Pasific,,Wing,,,,Laporan via WhatsApp,Terkonfirmasi,"1. Cathay Pacific : 
+Flight Number : CX-779 Type of Aircraft : A333
+Registrasi : B-LAK
+Route : HKG-SUB
+PS : A08 RON
+Kejadian : Birdstrike saat landing, terdapat 7 titik yang terkena Birdstrike dan indikasi hewannya kelelawar, part pesawat yg terkena Birdstrike masih normal dan serviceable.
+“Informasi dari Teknisi Cathay Pasific”.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20230623.jpg,Airbus
+2023-06-23T00:00:00.000Z,,,Landing,In,,Bat Strike,Singapore Airlines,,Nose,,,,Laporan via WhatsApp,Terkonfirmasi,"Singapore Airlines Flight Number : SQ-928
+Type of Aircraft : B738
+Registrasi : 9V-MBO
+Route : SIN-SUB
+PS : A07 (saat ini sudah terbang kembali).
+Kejadian : Birdstrike saat landing, terdapat 1 titik di nose pesawat yang terkena birdstrike, part pesawat serviceable.
+“Informasi dari Engineer Singapura Airlines”",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20230623-1.jpg,Boeing
+2023-06-24T00:00:00.000Z,,,Landing,In,,Bird Strike,Singapore Airlines,,,,,,Laporan via WhatsApp,Tidak Terkonfirmasi,"Data penerbangan
+
+Tipe              :  B38M
+Operator      :  SIA AIR
+Registrasi    : 9VMBK
+",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20230624.jpg,Boeing
+2023-06-24T00:00:00.000Z,1970-01-01T18:11:00.000Z,,Landing,In,,Bird Strike,Singapore Airlines,10,,,,,Laporan via WhatsApp,Terkonfirmasi,"Flight. No.   :  SIA928
+Rute             : WSSS -WARR
+Waktu          :  10.48 UTC
+Rwy. JND    :  10
+
+KRONOLOGI
+Jam 10.48  UTC SIA 928 posisi final rwy 10 melaporkan mengalami Birdstrike dan melakukan go around serta berdampak pada 3 pesawat holding.
+Setelah dilakukan pengecekan tidak terdapat bangkai burung
+Jam 10.56 UTC SIA 928 landed safely   
+
+Informasi dari ATC
+Flight Birdstrike
+
+1. Singapure Airlines SQ-928 / B738 / 9VMBK dengan rute SIN - SUB. A/C menggunakan runway 10 dan blok on di P. Stand A07
+
+ATA : 18.11 wib 
+
+Setelah dilakukan pengecekan, Pesawat Singapure Airlines terdapat 2 titik yang terkana Birdstrike dan indikasi hewannya Burung, untuk part dari pesawat yg terkena Birdstrike masih normal dan service able",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20230624-1.jpg,Boeing
+2023-12-27T00:00:00.000Z,1970-01-01T09:57:00.000Z,,Landing,In,,Bird Strike,Malaysia Airlines,,Window,,,Engineering Inspection,Email dari Malaysia Airline,Tidak Terkonfirmasi,"Dear @juanda.safety@ap1.co.id
+
+Greetings from Malaysia Airlines Surabaya
+
+ 
+
+Through this email, we want to Report of Birdstrike Incident Flight Malaysia Airlines, with detail flight as follows
+
+Date : 27 December 2023
+
+Flight No : MH870
+
+Reg : 9M-MSF
+
+Route : SUB-KUL
+
+STD/ATD : 10.00 LT/09.47 LT
+
+Airborne Time : 09.57 LT
+
+ 
+
+The Birdstrike incident occurred when the plane after airborne at Juanda International Airport RWY 10 at around 09.57 LT. At the time, the plane hit a flying bird and hit the right-side window (First Officer Windshield 1R).
+
+After landing at KUL, Engineering inspection was carried out, NIL damage. Birdstrike is a threat to aviation safety that can endanger the safety and security of flight. In some cases, bird collisions with an aircraft result in dents in the aircraft body, or even worse, when they enter the aircraft engine. Birds that are sucked into the turbine engine of an aircraft can cause damage to the entire engine.
+
+Therefore, I request that you, the Safety Department of Juanda International Airport take preventive and mitigation measures regarding this incident and also please provide corrective action.
+
+Please find Attached report from our Pilot for your perusal.
+
+ 
+
+This is the report of Birdstrike incident that I convey. I hope that you, the safety department of Juanda International Airport, can pay attention and follow up on this report.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20231227.pdf,Boeing
+2024-01-01T00:00:00.000Z,1970-01-01T16:31:00.000Z,,Landing,In,,Bird Strike,Lion Air,10,,,,,Laporan Whatsapp,Terkonfirmasi,"Lion Air JT-919 / B738 / PK-LKP dari DPS  menggunakan runway 10 di ps.14
+ATA : 16.31 wib
+B.On : 16.35 wib
+
+Note : Pesawat masih dilakukan pengecekan pada engine 2",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20240101.jpg,Boeing
+2024-02-06T00:00:00.000Z,1970-01-01T18:14:00.000Z,,Landing,In,,Bird Strike,Cathay Pasific,28,,,,,Informasi dari ARFF Section,Tidak Terkonfirmasi,"Just info
+18.14 info dari cathay pacific birt strike di ujung R/W28 melaui Radio HT.
+18.15 C1 dengan 2 personil  menuju lokasi 
+18. 16 menumukan bangkai burung diExit N6. C1 melakukan ispeksi dari ujung R/W sampai N3. 
+18.18 C1 kembali ke F/S malalui acces road.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20240206.jpeg,Airbus
+2024-02-20T00:00:00.000Z,1970-01-01T09:05:00.000Z,,Landing,In,,Bird Strike,Singapore Airlines,28,,,,,Informasi dari ARFF Section,Tidak Terkonfirmasi,"09.05 Info dari tower Singapore airlines yg landing terkena birdstrike,lokasi di perkirakan  Runway sekitar area N6,C1 menuju lokasi
+09.13 info dari C1 di lokasi ditemukan 6 ekor bangkai burung Sriti, C1 melanjutkan menyisir Runway dari R28 sampai N2.
+09.15 C1 selesai penyisiran sampai N2 C1 kembali ke firestation",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20240220.pdf,
+2024-03-18T00:00:00.000Z,1970-01-01T09:10:00.000Z,,Final,Out,,Bird Strike,Singapore Airlines,28,,,,,Laporan Whatsapp,Terkonfirmasi,"Lokasi Kejadian
+Lokasi Kejadian : Aerodrome RW28, Alt ± 200 ft.
+
+Data Operator
+Airlines                : Singapore Airline 
+Flt Num               : SQ922
+Route                   : SIN - SUB - SIN
+A/C Reg              : 9VSHT
+A/C Type            : A359
+PIC                      : Capt. Seng Wang Heng
+PAX                     : 223 pax
+
+Kerusakan
+Fuselage            : nil
+
+Catatan
+> Terdapat bercak darah pada bagian cockpit.
+> Setelah dilakukan pengecekan oleh Team Mekanik, pesawat dinyatakan serviceable.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20240318.png,Airbus
+2025-02-21T00:00:00.000Z,1970-01-01T10:18:00.000Z,,Take Off,In,2.00,Bird Strike,Lion Air,10,Engine,,Continue Flight,Pengambilan FOD,Laporan Whatsapp,Terkonfirmasi,"LION AIR
+JT-919 / B738 / PK-LKP dari DPS  menggunakan runway 10 di ps.14
+ATA : 16.31 wib
+B.On : 16.35 wib
+
+Note : Pesawat masih dilakukan pengecekan pada engine 2",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250221.png,Boeing
+2024-05-28T00:00:00.000Z,1970-01-01T17:48:00.000Z,,Landing,In,,Bird Strike,Cathay Pasific,10,,,,,Laporan Whatsapp  ,Terkonfirmasi,"Selamat malam
+Ijin menyampaikan untuk diketahui :
+28 Mei 2024
+Mendengar percakapan ATC dengan pilot
+Flight Birdstrike
+
+Cathay Pacific CX-779 / A333 / BLAD dengan rute HKG - SUB (Ron). Landing menggunakan runway 10 
+ATA : 17.41 wib 
+Blok on di P. Stand A08 : 17.48 wib
+
+Note : Pesawat masih dilakukan pengecekan oleh teknik
+
+Demikian disampaikan dan Terimakasih",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20240528.png,Airbus
+2024-06-19T00:00:00.000Z,1970-01-01T06:08:00.000Z,,Landing,In,,Bird Strike,Super Air Jet,28,,,,,Laporan Whatsapp,Terkonfirmasi,"REPORT BIRDSTRIKE
+Izin menyampaikan laporan Pesawat terkena birdstrike dengan data sebagai berikut :
+
+Hari / Tanggal : Rabu/19-06-2024
+Flight No : SJV717
+Reg/Type : PK-SGC/A320
+Rute : LOP-SUB
+P. Stand : B15A
+Block On : 06.08 LT
+Note : Terkena birdstrike pada saat di final rwy 28
+
+-Pesawat direposisi ke B24
+-Pesawat akan dilakukan idle power untuk pengecekan",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20240619.pdf,Airbus
+2024-07-04T00:00:00.000Z,1970-01-01T17:59:00.000Z,,Landing,In,,Bird Strike,Saudi Arabian,10,,,,,Nota Dinas Airport Operation NOMOR : SUB.AO. 0814/KB.02.03.03/2024-B,Terkonfirmasi,"17.59 Info dari tower via HT , pesawat saudi terkena Birdstrike ,request penyisiran runway
+18.00 Kendaraan utility menuju R/W 10 melalui NP2 - N1
+18.08 Kendaraan Utility melakukan penyisiran sepanjang Runway dr R/W 10 sampai dengan N5, laporan dari utility tidak ditemukan bangkai burung hanya bangkai kelelawar kecil di Runway antara N3-N5
+18.11 Kendaraan utility kembali ke fire station
+",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20240704.pdf,
+2024-07-04T00:00:00.000Z,1970-01-01T18:01:00.000Z,,Landing,In,,Bird Strike,Saudi Arabian,10,,"Flight terdampak Go Around at 18.00Lt
+
+1. SIA 928 SIN-SUB B738
+
+2. BTK 6147 UPG - SUB A320",,,Laporan Whatsapp,Terkonfirmasi,"REPORT BIRDSTRIKE
+
+Izin menyampaikan laporan Pesawat terkena birdstrike dengan data sebagai berikut :
+
+Hari / Tanggal : Kamis/04-07-2024
+SAUDI ARABIA AIRLINES
+Flight No : SVA5254
+Reg/Type : ECNTY/A333
+Rute : KNO-SUB
+P. Stand : B11
+Block On : 18.01 LT
+
+Note :
+- Terkena birdstrike pada saat di final rwy 10
+- Dilakukan pengecekan oleh komando car (ARFF) dan ditemukan bangkai kelelawar di runway.
+",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20240704.pdf,Airbus
+2024-07-19T00:00:00.000Z,1970-01-01T20:19:00.000Z,,Landing,In,,Bird Strike,Royal Brunei,10,,,,,Laporan Via Whastapp,Terkonfirmasi,"REPORT BIRDSTRIKE
+
+Mohon izin menyampaikan laporan Pesawat terkena birdstrike dengan data sebagai berikut :
+
+Hari / Tanggal : Jumat/19 Juli 2024.
+Maskapai : Royal Brunei Airlines.
+Flight No : BI795.
+Reg/Type : V8-RBC /A320
+Rute : BWN-SUB.
+P. Stand : A07.
+Block On : 20.19 LT.
+
+Keterangan :
+- Terkena birdstrike pada saat di final rwy 10
+- Dilakukan pengecekan oleh ARFF dan tidak ditemukan bangkai/FOD di RWY
+
+Setelah dilakukan pengecekan oleh enginer,pswt dinyatakan Serviceable
+
+Demikian disampaikan. Terimakasih",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20240719.pdf,Airbus
+2024-08-06T00:00:00.000Z,1970-01-01T18:10:00.000Z,,Landing,In,,Bird Strike,Cathay Pasific,,,,,,Laporan Via Whastapp,Terkonfirmasi,"Assalamualaikum,
+Selamat Malam 
+Mohon ijin menginformasikan kejadian BirdStike  
+
+Hari/Tanggal : Selasa/6 Agustus 2024
+Operator : Cathay Pacific Airlines 
+Flight Number : CX 779.
+Rute : HKG-SUB (RON).
+Registrasi: B-LBJ.
+Type A/C : A330.
+Parking stand A08.
+Block On : 18.10 Wib
+* Terdapat bercak darah di atas jendela kokpit 
+* setelah dilakukan pengecekan pada pesawat oleh tim enginer tidak ditemukan kerusakan dan dinyatakan pesawat serviceable.
+
+Demikian disampaikan, Terimakasih",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20240806.pdf,Airbus
+2024-08-20T00:00:00.000Z,1970-01-01T16:39:00.000Z,,Landing,In,,Bird Strike,Lion Air,10,,,,,Laporan Via Whastapp,Terkonfirmasi,"REPORT BIRDSTRIKE
+Izin menyampaikan laporan Pesawat terkena birdstrike dengan data sebagai berikut :
+
+Hari / Tanggal : Selasa / 20-08-2024
+Flight No : JT 075
+Reg/Type : PK-LEI /A339
+Rute : JED-SUB
+P. Stand : A06
+ATA : 16.39
+Block On : 16.48 LT
+
+Note :
+- Terkena birdstrike sesaat setelah touch down rwy 10
+- Dilakukan penyisiran runway oleh ARFF, ditemukan burung kondisi masih hidup dan sudah di amankan",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20240820.pdf,Airbus
+2024-10-26T00:00:00.000Z,1970-01-01T11:03:00.000Z,,,,,Bird Strike,Super Air Jet,,,,,,Laporan Via Whastapp,Terkonfirmasi,"Pesawat Super airjet 
+Flight : IU 363
+Rute : KNO-SUB
+REG. : PK SJK/A320
+Block on : 11.03 wib
+Parkir : B14
+PIC : Capt. Haris Permana
+Update : pesawat masih dalam pemeriksaan teknik, bangkai burung terduga jenis elang Jawa, PIC tidak mengetahui pasti dimana terjadinya Birdstrike.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20240926.png,Airbus
+2024-11-22T00:00:00.000Z,1970-01-01T18:10:00.000Z,,Landing,In,,Bird Strike,Cathay Pasific,28,,,,,Laporan Via Whastapp,Terkonfirmasi,"Hari/ tanggal : Jumat /22 November 2024
+Airlines : Cathay pacific airlines
+Flight : CPA 779
+Rute : HKG-SUB RON
+REG. : B-LAK/
+A/C : TypeA330-300
+Block on : 18:10 LT
+Parkir : A07
+
+Remark : terdapat sedikit bercak darah pada nose pesawat, 
+Setelah pengecekan pesawat dinyatakan  Serviceable",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20241122.jpeg,Airbus
+2024-11-24T00:00:00.000Z,1970-01-01T19:16:00.000Z,,Landing,In,,Bird Strike,Air Asia,28,,"1. Aerodrome closed d/t runway inspeksi (tidak ditemukan bangkai burung di runway)
+2. CTV736 CGK-SUB  melakukan Go Around
+3. Lima Trafik arrival ter-holding. 
+> BTK6414 DPS-SUB
+> MXD352 KUL-SUB
+> CTV722 CGK-SUB
+> BTK6576 CGK-SUB
+4. Satu Trafik departure ter-holding
+> CTV494 SUB-BDJ",,,Laporan Via Whastapp,Terkonfirmasi,"A. Data Penerbangan
+Airlines            : Air Asia
+Flight Number : QZ325
+Registrasi        : PKAZG
+Route                : KUL-SUB
+ATA                   : 19:16 LT
+Runway Use    : 28
+Lokasi Bordstrike : Runway 
+Kerusakan peswat : tidak ada kerusakan pada pesawat, hanya meninggalkan jekak darah di kaca kokpit",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20241124.jpeg,Airbus
+2024-11-29T00:00:00.000Z,1970-01-01T13:31:00.000Z,,Final,Out,,Bird Strike,Citilink,28,,,,,Laporan Via Whastapp,Terkonfirmasi,"Hari / Tanggal : Jumat/29-11-2024
+Flight No : QZ 393
+Reg/Type : PK AZG/A320
+Rute : JHB-SUB
+P. Stand : A01
+Block On : 13.31 wib
+Note :
+- Terkena birdstrike pada saat di final rwy 28 ( ATA : 13.27 wib )
+- Dilakukan pengecekan oleh komando di exit runway taxi S3 dan landasan di runway exit N5
+- Pesawat serviceable",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20241129.jpeg,Airbus
+2025-01-01T00:00:00.000Z,1970-01-01T06:33:00.000Z,,Landing,In,3.00,Bird Strike,Cathay Pasific,28,Fuselage,.,Continue Flight,,Email Cathay,Terkonfirmasi,"CATHATY PASIFIC AIRLINES
+Birdstrike ON FUSELAGE, POSSIBLY 3 DIFFERENT LOCATION ON LANDING ROLL.  Phase of Flight: Landing",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250101.png,Airbus
+2025-01-04T00:00:00.000Z,1970-01-01T18:39:00.000Z,,Landing,In,,Bird Strike,Cathay Pasific,,,,Continue Flight,,Email Cathay,Tidak Terkonfirmasi,"CATHATY PASIFIC AIRLINES
+Birdstrike ON SHORT FINAL WE HEARD A THUMP AND SUSPECT A Birdstrike  Phase of Flight: Landing",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250104.png,Airbus
+2025-02-25T00:00:00.000Z,1970-01-01T12:55:00.000Z,,Landing,In,7.00,Bird Strike,Pelita Air,10,Nose,Penggantian Sparepart Pesawat,Aircraft Grounded,ENGINEER PROGRESS DO CHECK OF RADOME CONDITION,Laporan Whatsapp,Terkonfirmasi,"PELITA AIR
+'Reg. : PK-PWK
+A/C Type : A320
+Flight No. : IP203
+Route : SUB-CGK
+ETD/ATD : 12:55 Z / TBD
+Problem : PWK Birdstrike ON RADOME 
+
+Action : 
+- ENGINEER PROGRESS DO CHECK OF RADOME CONDITION",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250225.png,Airbus
+2025-02-25T00:00:00.000Z,1970-01-01T06:55:00.000Z,,Landing,In,,Bird Strike,Lion Air,,,,Continue Flight,,,Terkonfirmasi,Lion Air JT929,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250225.png,Boeing
+2025-02-26T00:00:00.000Z,1970-01-01T20:47:00.000Z,,Landing,In,,Bird Strike,Singapore Airlines,,Wing,,Continue Flight,,,Terkonfirmasi,Singapore Airlines SQ929,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250226.png,Airbus
+2025-03-04T00:00:00.000Z,1970-01-01T15:12:00.000Z,,Landing,In,1.00,Bird Strike,Citilink,10,Nose,"   ● Holding departure
+       1. LNI 642
+   ● Holding Arrival
+       1. GIA 310
+       2. SIA 926",Continue Flight,,Laporan Whatsapp,Terkonfirmasi,"CITILINK
+Kronology : 
+15.12 LT mendengar PIC QG-174 report ke tower bahwa terkena birdstrike, tower meneruskan ke ARFF untuk dilakukan pengecekan RWY 
+15.14 LT Comando melakukan penyisiran bangkai burung dari runway 10 menuju exit taxiway N5, dan ditemukan 1 bangkai burung
+15.20 LT Comando keluar runway dan di nyatakan clear Setelah dilakukan pengecekan oleh enginer, pesawat dinyatakan serviceable",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250304.png,Airbus
+2025-03-04T00:00:00.000Z,1970-01-01T15:00:00.000Z,,Landing,In,4.00,Bird Strike,Scoot Airlines,28,,,Continue Flight,,Technician,Terkonfirmasi,"SCOOT AIRLINES
+Kronology : 
+01.59 TGW2665 LANDING RWY 28,PILOT DID NOT REPORT BIRDSTRIKE INCIDENT DURING LANDING 
+02.30 SCOOT AIRLINES TECHNICIAN REPORTED TO THE TOWER THAT BIRDSTRIKE MARKS WERE FOUND ON THE AIRCRAFT BODY.
+ATIS HAS BROADCAST ABOUT BIRD ACTIVITY IN THE VICINITY OF AERODROME
+02.52 RUNWAY INSPECTION CONDUCTED
+02.59 RUNWAY DECLARED CLEAR AND NO BIRD CARCASES WERE FOUND",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250304.png,Airbus
+2025-03-08T00:00:00.000Z,1970-01-01T10:28:00.000Z,,Landing,In,,Bird Strike,Jet Star,,Wind Shield,,Continue Flight,,Laporan Whatsapp,Terkonfirmasi,"JET STAR
+Note :
+- Ditemukan bercak darah pada windshiled
+- Setelah dilakukan pengecekan oleh enginer, pesawat dinyatakan serviceable.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250308.png,Airbus
+2025-03-08T00:00:00.000Z,1970-01-01T23:17:00.000Z,,Landing,In,6.00,Bird Strike,Air Asia,28,Engine,,Continue Flight,,Laporan Whatsapp,Terkonfirmasi,"Air Asia QZ 327 (PK-AZL)
+burung terhisap masuk kedalam engine 1 booster, dan harus dilakukan engine borescope untuk memeriksa lebih lanjut kondisi internal engine 1",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250308.png,Airbus
+2025-03-11T00:00:00.000Z,1970-01-01T08:35:00.000Z,,Short Final,Out,5.00,Bird Strike,Air Asia,28,Wind Shield,,Continue Flight,,Form Birdstrike,Terkonfirmasi,"AIR ASIA (PK-AZG)
+Pilot merasakan adanya benturan saat landing. Saat diperiksa ada bercak darah pada windshield",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250311.png,Airbus
+2025-03-11T00:00:00.000Z,1970-01-01T09:09:00.000Z,,Short Final,Out,3.00,Bird Strike,Air Asia,28,Engine,,Continue Flight,,Form Birdstrike,Terkonfirmasi,"AIR ASIA (PK-AZL)
+Pilot merasakan adanya benturan saat landing. Saat diperiksa ada bercak darah pada Mesin no. 2",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250311.png,Airbus
+2025-03-14T00:00:00.000Z,1970-01-01T23:08:00.000Z,,Landing,In,4.00,Bird Strike,Air Asia,28,Temperatur Air Sensor,,Continue Flight,,Laporan Whatsapp,Terkonfirmasi,"Air Asia QZ 327 (PK-AZG) 
+bekas burung menempel pada temperature air sensor dan tidak terdapat kerusakan terhadap pesawat udara. Dokumentasi sebagaimana terlampir.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250314.png,Airbus
+2025-03-21T00:00:00.000Z,1970-01-01T23:00:00.000Z,,Take Off,In,6.00,Bird Strike,Citilink,28,,,Continue Flight,,Laporan Whatsapp,Terkonfirmasi,"CITILINK  A320
+AFTER AIRBORN RWY28, CTV670 REPORT THAT HE WAS EXPERIENCE Birdstrike WHILE ROLLING AND NO OBJECTION CONTINUE FLIGHT TO WADL.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250321.png,Airbus
+2025-03-23T00:00:00.000Z,1970-01-01T18:37:00.000Z,,Landing,In,8.00,Bird Strike,Cathay Pasific,10,Nose,,Continue Flight,,Laporan Whatsapp,Terkonfirmasi,"Chathy Pasific CPA 779
+Note :
+- Mendapat informasi dari teknik adanya  birdstrike di bagian Nose sisi kiri bawah (Menggunakan Rwy 28) dan saat komunikasi menggunakan headset captain tidak Notice jika ada birdstrike.
+- Setelah di lakukan pengecekan menyeluruh oleh teknik,tidak di temukan lagi adanya birdstrike di bagian pesawat.Teknik menyatakan pesawat clear.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250323.png,Airbus
+2025-03-24T00:00:00.000Z,1970-01-01T05:45:00.000Z,,Take Off,In,,Bird Strike,Royal Brunei,,,,Continue Flight,,AMC,Terkonfirmasi,"Royal Brunei  BI 796
+- Memdengar percakapan di frekuensi tower Setelah Airborne Capt Royal brunei mengkontak tower telah terjadi birdstrike saat rolling T/o
+- Jam 05.59 wib tower mengkontak team ARFF utk melakukan penyisiran RWY
+- Jam 06.04 wib team ARFF masuk Rwy untuk melakukan inspeksi Rwy
+- Jam 06.08 wib telah dintemukan bangkai burung di area RWY sekitaran S3 dan kemudian ARFF keluar RWY serta di nyatakan Clear.
+- Untuk peswat Royal Brunei tetap melanjutkan penerbangan.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250324.png,Airbus
+2025-04-30T00:00:00.000Z,1970-01-01T18:00:00.000Z,,Landing,In,,Bird Strike,Cathay Pasific,,,,Continue Flight,,,Terkonfirmasi,,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250430.png,Airbus
+2025-03-25T00:00:00.000Z,1970-01-01T16:50:00.000Z,,Landing,In,2.00,Bird Strike,Lion Air,10,Engine,,Aircraft Grounded,,Laporan Whatsapp,Terkonfirmasi,"LION AIR - PK LG0
+1. Pukul 16.52 WITA pesawat PK-LGO berangkat dari UPG.
+2. ⁠Pukul 17.02 WIB pesawat PK-LGO landing di SUB.
+3. ⁠PIC memberikan keterangan bahwa pada saat landing, terjadi Birdstrike pada engine nomor 1 dan menginformasikan bahwa engine parameter normal, namun ketika mengoperasikan thrust reverser terasa agak berat.
+4. Setelah dilakukan walk around check ditemukan bahwa blade tip nomor 1,3,4,5,6 dan 24 mengalami deflection.
+5. ⁠Berdasarkan referensi maintenance manual kemudian dilakukan pengukuran terhadap deflection pada blade tip dan hasil pengukuran deflection dinyatakan out of limit, sehingga pesawat PK-LGO dinyatakan AOG.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250325.png,Boeing
+2025-04-01T00:00:00.000Z,1970-01-01T18:25:00.000Z,,Approach,Out,7.00,Bird Strike,Batik Air,10,Front Landing Gear,,Continue Flight,,Laporan Whatsapp,Terkonfirmasi,,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250401.png,Airbus
+2025-04-03T00:00:00.000Z,1970-01-01T10:00:00.000Z,,Take Off,In,,Bird Strike,Malaysia Airlines,10,,,Continue Flight,,Laporan Whatsapp,Tidak Terkonfirmasi,,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250403.png,Airbus
+2025-04-10T00:00:00.000Z,1970-01-01T06:01:00.000Z,,Landing,In,1.00,Bird Strike,Royal Brunei,10,Wing,,Continue Flight,,,Terkonfirmasi,Royal Brunei RBA796,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250410.png,Airbus
+2025-04-11T00:00:00.000Z,1970-01-01T18:40:00.000Z,,Landing,In,8.00,Bird Strike,Batik Air,10,Wing,,Continue Flight,,,Terkonfirmasi,Batik Air ID7503,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250411.png,Airbus
+2025-04-12T00:00:00.000Z,1970-01-01T11:11:00.000Z,,Landing,In,,Bird Strike,Singapore Airlines,10,,,Continue Flight,,Laporan Whatsapp,Tidak Terkonfirmasi,"KRONOLOGI : 
+11.14 :  SIA923 ATA 11.10z  POSITION TAXI TO APRON INFO TO JUANDA GND  --LASER ATTACK AT FINAL RWY 10 SOUTHEAST 5NM",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250412.png,Airbus
+2025-04-14T00:00:00.000Z,1970-01-01T08:26:00.000Z,,Take Off,In,,Bird Strike,Cathay Pasific,28,Nose,,Continue Flight,,Form Birdstrike,Tidak Terkonfirmasi,,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250414.png,Airbus
+2025-04-15T00:00:00.000Z,1970-01-01T06:07:00.000Z,,Take Off,In,,Bird Strike,Royal Brunei,10,,,Continue Flight,,Form Birdstrike,Tidak Terkonfirmasi,"Kronology : 
+23.07 UTC RBA796 AFTER DEPARTURE RWY10 REPORTED THAT HE WAS EXPERIENCING BIRDS STRIKE WHEN ROLLING FOR Take Off AND CONTINUE HIS FLIGHT TO WBSB.
+23.08 UTC RUN WAY INSPECTION STARTED AND THE RESULT IS NO CARCAS OF BIRDS FOUND.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250415.png,Airbus
+2025-04-19T00:00:00.000Z,1970-01-01T17:48:00.000Z,,Short Final,Out,2.00,Bird Strike,Cathay Pasific,10,Nose,sedikit bercak merah di nose pesawat,Continue Flight,,Laporan Whatsapp,Terkonfirmasi,,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250419.png,Airbus
+2025-04-19T00:00:00.000Z,1970-01-01T17:47:00.000Z,,Landing,In,7.00,Bird Strike,Cathay Pasific,10,Nose,sedikit bercak merah di nose pesawat,Continue Flight,Inspeksi Runway,Engineer,Terkonfirmasi,"Note :
+1. Oleh Kendaraan Comando ARRF menyusuri area touchdown runway 10 tidak ditemukan bangkai ataupun bekas burung
+2. Terdapat sedikit bercak merah di nose pesawat
+3. Pesawat masih dilakukan pengecekan oleh tim teknik",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250419.png,Airbus
+2025-04-25T00:00:00.000Z,1970-01-01T17:57:00.000Z,,Short Final,Out,5.00,Bird Strike,Cathay Pasific,28,Engine,"■ Go Arround :
+1. CTV 172 HLP-SUB
+■ Divert :
+1. CTV 172, HLP-SUB (Divert to DPS)
+2. SJV 725, LBJ-SUB (Divert to SRG)
+■ Holding Arrival :
+1. LNI 687, PKY-SUB
+2. LNI 727, KDI-SUB
+■ Holding Departure : 
+1. AWQ 326, SUB-KUL
+2. LNI 226, SUB-BDJ",Continue Flight,,Laporan Whatsapp,Terkonfirmasi,,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250425.png,Airbus
+2025-04-30T00:00:00.000Z,1970-01-01T17:48:00.000Z,,Landing,In,1.00,Bird Strike,Cathay Pasific,10,,,Continue Flight,Inspeksi Runway,Engineer,Terkonfirmasi,At landing. a flock of bats was hit. Numerons bats (>50 encountered throughout the remaining rollout and taxi in. Evidence of impact was found at 2 locations on the aircraft after inspectron,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250430.png,Airbus
+2025-04-25T00:00:00.000Z,1970-01-01T17:57:00.000Z,,Landing,In,8.00,Bird Strike,Cathay Pasific,10,,"Flight terdampak selama inspeksi Rwy :
+■ Go Arround :
+1. CTV 172 HLP-SUB
+
+■ Divert :
+1. CTV 172, HLP-SUB (Divert to DPS)
+2. SJV 725, LBJ-SUB (Divert to SRG)
+
+■ Holding Arrival :
+1. LNI 687, PKY-SUB
+2. LNI 727, KDI-SUB
+
+■ Holding Departure : 
+1. AWQ 326, SUB-KUL
+2. LNI 226, SUB-BDJ",Continue Flight,Inspeksi Runway,Laporan Whatsapp,Terkonfirmasi,,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250425.png,Airbus
+2025-05-01T00:00:00.000Z,1970-01-01T09:35:00.000Z,,Landing,In,3.00,Bird Strike,Scoot Airlines,28,Wind Shield,,Continue Flight,Inspeksi Runway,Engineer,Terkonfirmasi,Ditemukan bercak darah di windshield,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250501.png,Airbus
+2025-05-02T00:00:00.000Z,1970-01-01T17:30:00.000Z,,Landing,In,,Bird Strike,Cathay Pasific,,,,Continue Flight,,,Terkonfirmasi,,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250502.png,Airbus
+2025-05-06T00:00:00.000Z,1970-01-01T17:55:00.000Z,,Landing,In,2.00,Bird Strike,Cathay Pasific,10,Front Landing Gear,,Continue Flight,Inspeksi Runway,Laporan Whatsapp,Terkonfirmasi,"17:55 Setelah landing Capt menginfokan pesawatnya menabrak burung dan melaporkan ke Tower sepanjang Rwy dari 10 ke 28 ada kurang lebih 10 bangkai burung
+17:56 Tower menginfokan ke Comando untuk menyisir sepanjang RWY dari 10 ke 28
+18:06 Comando selesai menyisir Rwy dan tidak menemukan bangkai burung
+",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250506.png,Airbus
+2025-05-09T00:00:00.000Z,1970-01-01T06:55:00.000Z,,Landing,In,4.00,Bird Strike,Citilink,28,Engine,,Continue Flight,,Laporan Whatsapp,Terkonfirmasi,"Note :
+1. Diketahui ketika Captain melakukan walk around sekitar 07.10 lt 
+2. Tercium bau amis bangkai burung didalam engine No.2  dan segera di laporkan ke teknik GMF a.n Totok 
+3. Segera dilakukan pembersihan bangkai burung oleh team teknik 
+4. Dari pengakuan Captain, PIC merasakan seperti menabrak burung ketika pesawat exit di N2
+5. 07.36 pesawat dinyatakan serviceable dan dilanjutkan proses boarding CTV 460 SUB-AAP",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250509.jpg,Airbus
+2025-05-10T00:00:00.000Z,1970-01-01T17:45:00.000Z,,Landing,In,7.00,Bird Strike,Super Air Jet,10,Nose,"Go round
+SJV 727
+
+Holding 
+BTK 7503
+CX 779",Continue Flight,Inspeksi Runway,Laporan Whatsapp,Terkonfirmasi,"17.44 laporan dari captain SJV 723 adanya batstrike saat landing di area touchdown RWY 10 sekitaran N2 - n1
+17.45 tower kontak AARFF untuk menyisisr area
+17.45 ARFF mulai menyisir via N3 kemudian ke RWY sejajaran N2 - N1
+17.51 tidak di temukan bangkai kelelawar dan ARFF kluar RWY via S1
+17.51 konfirmasi dari teknik di temukan bangkai kelelawar di bagian nosewheel dan peswat di nyatakan service able",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250510.png,Airbus
+2025-05-12T00:00:00.000Z,1970-01-01T17:31:00.000Z,,Landing,In,1.00,Bird Strike,Garuda Indonesia,10,,"- JT865 LOP - SUB
+- IU723 DPS - SUB
+- JT923 DPS - SUB
+- SJ567 UPG - SUB
+- ID6578 CGK - SUB",Continue Flight,Inspeksi Runway,Laporan Whatsapp,Terkonfirmasi,"17.47 LT Commando inspeksi RWY
+17.57 LT ditemukan 7 bangkai kelelawar, Commando keluar RWY",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250512.png,Airbus
+2025-05-12T00:00:00.000Z,1970-01-01T17:31:00.000Z,,Take Off,In,,Bird Strike,Saudi Arabian,10,,"- GA349 DPS - SUB
+- JT865 LOP - SUB
+- IU723 DPS - SUB
+- JT923 DPS - SUB",Continue Flight,Inspeksi Runway,Laporan Whatsapp,Tidak Terkonfirmasi,"17.32 LT Commando inspeksi RWY
+17.37 LT Commando keluar RWY dan tidak ditemukan bangkai burung",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250512.png,Boeing
+2025-05-14T00:00:00.000Z,1970-01-01T17:50:00.000Z,,Landing,In,8.00,Bird Strike,Cathay Pasific,10,,,Continue Flight,-,,Terkonfirmasi,CATHAY PASIFIC 779,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250514.png,Airbus
+2025-05-17T00:00:00.000Z,1970-01-01T18:18:00.000Z,,Short Final,Out,2.00,Bird Strike,Batik Air,10,,,Continue Flight,-,,Terkonfirmasi,Batik Air 6576,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250517.png,Airbus
+2025-05-19T00:00:00.000Z,1970-01-01T06:01:00.000Z,,Take Off,In,7.00,Bird Strike,Citilink,10,,,Continue Flight,-,,Terkonfirmasi,Citilink CTV430,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250519.png,Airbus
+2025-05-19T00:00:00.000Z,1970-01-01T06:16:00.000Z,,Take Off,In,1.00,Bird Strike,Batik Air,10,,,Continue Flight,-,,Terkonfirmasi,Batik Air 6589,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250519.png,Airbus
+2025-05-20T00:00:00.000Z,1970-01-01T05:25:00.000Z,,Take Off,In,6.00,Bird Strike,Citilink,28,,,Aircraft Grounded,-,,Terkonfirmasi,"1. On May 20th, 2025 an Airbus A320 registered PK-GLU operated as CTV430 departed from
+SUB airport bound for BPN airport.
+2. As the aircraft lined up on Runway 28 at SUB Airport.
+3. During take-off roll, flight crew approached V1 at approximately 120 knots and flight crew
+observed three birds on the centerline that then flew toward the right side, in the
+direction of ENG #2.
+4. Shortly afterward, flight crew noticed a change in engine noise, accompanied by an
+increase in N1 vibration up to 3.7 units.
+5. All other engine instruments indicated normal conditions, so flight crew continued the
+flight to BPN and landed safely.
+6. A PIREP was made to the tower, and operations were informed via frequency 131.95 to
+relay the information to the BPN station engineer.
+7. Upon arrival, an Engineering inspection revealed two nicked compressor blades and one
+torn compressor blade.
+8. The Engineer assessed the damage and requested a one-hour delay.
+9. Following a detailed examination by Engineer personnel, the aircraft was declared AOG
+(Aircraft on Ground)",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250520.png,Airbus
+2025-05-23T00:00:00.000Z,1970-01-01T17:53:00.000Z,,Landing,In,,Bird Strike,Cathay Pasific,,,,Continue Flight,-,,Tidak Terkonfirmasi,CATHAY PASIFIC 779,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250523.png,Airbus
+2025-05-26T00:00:00.000Z,1970-01-01T17:43:00.000Z,,Landing,In,5.00,Bird Strike,Cathay Pasific,28,,,Continue Flight,-,,Terkonfirmasi,Cathay Pasific 779,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250526.png,Airbus
+2025-05-28T00:00:00.000Z,1970-01-01T17:50:00.000Z,,Landing,In,3.00,Bird Strike,Cathay Pasific,28,,,Continue Flight,-,,Terkonfirmasi,Cathay Pasific TBN,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250528.png,Airbus
+2025-06-04T00:00:00.000Z,1970-01-01T13:00:00.000Z,,Approach,Out,8.00,Bird Strike,Citilink,10,Wind Shield,,Continue Flight,Inspeksi Runway,Engineer,Terkonfirmasi,Ditemukan bercak darah di windshield,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250604.png,Airbus
+2025-06-07T00:00:00.000Z,1970-01-01T18:00:00.000Z,,Landing,In,,Bird Strike,Cathay Pasific,,,,Continue Flight,Inspeksi Runway,Airline,Terkonfirmasi,,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250607.png,Airbus
+2025-06-08T00:00:00.000Z,1970-01-01T20:23:00.000Z,,Landing,In,2.00,Bird Strike,Lion Air,10,Front Landing Gear,,Continue Flight,Inspeksi Runway,ATC,Terkonfirmasi,Ditemukan bercak darah,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250608.png,Boeing
+2025-06-08T00:00:00.000Z,1970-01-01T20:20:00.000Z,,Landing,In,7.00,Bird Strike,Lion Air,10,Nose,Bercak,Continue Flight,Inspeksi Runway,Engineer,Terkonfirmasi,"Note :
+- Terkena birdstrike pada saat landing rwy 10
+- Terdapat bercak darah pada nose pesawat dan landing gear
+- Pesawat serviceable",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250608.png,Airbus
+2025-06-11T00:00:00.000Z,1970-01-01T17:50:00.000Z,,Landing,In,1.00,Bird Strike,Cathay Pasific,10,Wing,Bercak,Continue Flight,Inspeksi Runway,ATC,Terkonfirmasi,"Kronologi : 
+17.50 Info Tower laporan dari Pilot Catay Pasific menginfo Birdstrike di Runway 10, reques Commando untuk melakukan penyisiran
+17.51 Commando 1 menuju lokasi via accses road menuju RW 10
+17.55 Commando 1 melaporkan tidak di ketemukan Birdstrike, lanjut penyisiran sampai S4
+17.59 Commando 1 melaporkan nihil dari FOD (bangkai burung), dan lanjut kembali ke Fire station via N3
+18.02 Commando 1 kembali di Fire station T1
+18.05 Commando 2 melakukan pemeriksaan pesawat Cathay Pacific di P/S A8",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250611.png,Airbus
+2025-06-14T00:00:00.000Z,1970-01-01T17:49:00.000Z,,Landing,In,8.00,Bird Strike,Cathay Pasific,10,Wing,,Continue Flight,Inspeksi Runway,Pilot,Terkonfirmasi,"CX799
+After landing, PIC report ke Tower, mengalami Birdstrike, setelah block on di A08 dilakukan visual check oleh engineer, dan ditemukan bercak darah di  bagian sayap, di atas engine mounting #1 dan bercak darah samar di kaca kokpit sisi F/O (tdk bisa didokumentasikan). Engineer menyatakan pesawat masih serviceable untuk melakukan penerbangan besok hari.",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250614.jpeg,Airbus
+2025-06-15T00:00:00.000Z,1970-01-01T05:49:00.000Z,,Take Off,In,2.00,Bird Strike,Citilink,10,Engine,Return To Apron,Aircraft Grounded,Inspeksi Runway,Pilot,Terkonfirmasi,"QG725
+""1. Pada pukul 05.49 WIB Pesawat Citilink Take Off runway 10 ketika kecepatan pesawat diantara 80Kts s/d 100Kts Pilot mendengar suara yang tidak biasa. Pilot menginformasikan bahwa pesawat menghantam burung. Setelah dikonfirmasi, PIC memutuskan langsung dilakukan prosedur Reject Take Off di kecepatan 100Kts dan pesawat berhenti total di rwy intersection N3. 
+2. Pada pukul 05.51 Pilot menginformasikan kepada ATC bahwa pswt menabrak burung dan meminta kembali ke Apron. 
+3. Pukul 05.53 dilakukan runway Inspection dan ditemukan bangkai Kelelawar pada runway. 
+4. Pukul 06.03 Runway Inspection telah selesai dilakukan.
+5. ⁠Pukul 06.05 WIB penumpang Disembark, tidak ada korban jiwa ataupun terluka. 
+6. Terdapat  kerusakan Total 3 (tiga) buah A/C Fan Bleed No.22,23,24 dent dan 1 main wheel harus diganti.
+7. Pesawat dinyatakan  AOG, penumpang diberangkatkan menggunakan pesawat pengganti pada pk. 08.18 wib""",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250615.jpg,Airbus
+2025-06-17T00:00:00.000Z,1970-01-01T10:30:00.000Z,,Take Off,In,7.00,Bird Strike,Scoot Airlines,10,,"Flight terdampak selama inspeksi Rwy:
+
+■ Go Arround
+1. LNI 694 (CGK-SUB)
+
+■ Holding Arrival :
+1. AWQ 321 (KUL-SUB)
+2. LNI 697 (KOE-SUB)
+
+■ Holding Departure : 
+1. SVA 4130 (SUB-JED)
+2. CTV 350 (SUB-UPG)",Continue Flight,Inspeksi Runway,Pilot,Terkonfirmasi,"SCOOT TR297
+- Setelah Take Off via RWY 10 Capt Scoot menginformasikan kepada tower bahwa pesawat terkena birdstrike
+- Jam 10.32 wib tower mengkontak team ARFF utk melakukan penyisiran RWY
+- Jam 10.34 wib Comando masuk RWY via N2 untuk melakukan penyisiran
+- Jam 10.38 wib Comando menyatakan tidak di temukan bangkai burung setelah dilakukan penyisiran hingga ujung RWY 28 kemudian keluar RWY via N7 kembali ke fire station
+- Untuk pesawat Scoot tetap melanjutkan perjalanan
+- Jam 10.39 wib Runway Clear
+",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250617.jpeg,Airbus
+2025-06-18T00:00:00.000Z,1970-01-01T17:43:00.000Z,,Landing,In,1.00,Bird Strike,Cathay Pasific,10,Nose,,Continue Flight,,Pilot,Terkonfirmasi,"Cathay Pasific 779
+BIRDS NOTICED AFTER LANDING AT LEAST ONE Birdstrike SUSPECTEC ON TH RIGHT SIDE Top of FUSELAGE",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250618.png,Airbus
+2025-06-22T00:00:00.000Z,1970-01-01T19:52:00.000Z,,Landing,In,8.00,Bird Strike,Royal Brunei,10,Fuselage,,Continue Flight,Inspeksi Runway,Form Birdstrike,Terkonfirmasi,"Royal Bruei RBA795
+Kronology : 
+12.52 UTC: RBA795 Landed RWY 10 report having Birdstrike position 200 ft Final RWY 10
+12.54 UTC: Runway Inspection
+13.02 UTC: Runway Inspection finish and No Carcass Found",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250622.png,Airbus
+2025-06-22T00:00:00.000Z,1970-01-01T19:53:00.000Z,,Landing,In,,Bird Strike,Batik Air,10,,Cancel Approach,Continue Flight,Inspeksi Runway,ATC,Tidak Terkonfirmasi,"BATIK AIR BTK6413
+Kronology : 
+12.52 UTC: BTK6413 Approach RWY 10
+12.53 UTC: Surabaya APP instructed BTK6413 to Cancel Approach due to preceeding traffic having Birdstrike and Runway Inspection in progress
+13.02 UTC: Runway Inspection finish and No Carcass Found. Surabaya APP gave BTK6413 approach clearance
+13.09 UTC: BTK6413 Safely landed RWY 10 ",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250622.png,Airbus
+2025-07-01T00:00:00.000Z,1970-01-01T18:00:00.000Z,,Landing,In,2.00,Bird Strike,Singapore Airlines,10,,,Continue Flight,Inspeksi Runway,Pilot,Terkonfirmasi,"SINGAPORE AIRLINE SIA928
+Kronology : 
+11.07 SIA928 POSITION AT APRON  REPORT TO JUANDA TOWER  HAS Birdstrike WHILE LANDING RWY 10 
+11.08 RWY INSPECTION CONCUCTED
+11.15 RWY INSPECTION FINISH AND NO CARCAS FOUND",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250701.jpg,Airbus
+2025-07-08T00:00:00.000Z,1970-01-01T18:00:00.000Z,,Landing,In,7.00,Bird Strike,Lion Air,10,,,Continue Flight,Inspeksi Runway,Pilot,Terkonfirmasi,"Lion Air LNI722
+10.56 UTC: LNI722 Take Off RWY 10
+10.58 UTC: LNI722 REPORT EXPERIENCED Birdstrike WHILE ROLLING Take Off RWY 10
+11.00 UTC: RUNWAY INSPECTION CONDUCTED
+11.06 UTC: RUNWAY INSPECTION FINISHED AND NO CARCASS FOUND ",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250708.jpeg,Boeing
+2025-07-09T00:00:00.000Z,1970-01-01T00:13:00.000Z,,Landing,In,1.00,Bird Strike,Saudi Arabian,10,Nose,,Continue Flight,Inspeksi Runway,Pilot,Terkonfirmasi,"Saudi Airlines SVA 5236
+1. Mendapatkan info adanya Birdstrike ketika pesawat sudah landing
+2. Info enginer terlihat bercak darah kecil di Nose Wheel. Status pesawat Serviceable.
+3. Tidak ada flight terdampak",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250709.jpg,Boeing
+2025-07-11T00:00:00.000Z,1970-01-01T19:01:00.000Z,,Landing,In,8.00,Bird Strike,Garuda Indonesia,10,Wind Shield,AWQ325 AND BTK7503 GO AROUND,Continue Flight,Inspeksi Runway,Pilot,Terkonfirmasi,"Garuda Indonesia GA313
+11.55 UTC: GIA313 Take Off RWY 10
+12.01 UTC: GIA313 (PASSING 10.000FT) REPORT EXPERIENCED Birdstrike WHILE ROLLING Take Off RWY 10.
+12.05UTC :TWR INSTRUCTED AWQ325 AND BTK7503 GO AROUND FOR SAFETY REASON(EXPECTED FOD/CARCASS ON THE RWY)
+12.07 UTC: RUNWAY INSPECTION CONDUCTED
+12.13 UTC: RUNWAY INSPECTION FINISHED AND NO CARCASS FOUND",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250711.jpg,Airbus
+2025-07-15T00:00:00.000Z,1970-01-01T18:02:00.000Z,,Landing,In,2.00,Bird Strike,Cathay Pasific,10,Front Landing Gear,,Continue Flight,Inspeksi Runway,Pilot,Terkonfirmasi,"Cathay Pasific CX779
+BIRDSTRIKE ON NOSE GEAR ON LANDING RUNWAY 10",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250715.jpg,Airbus
+2025-07-22T00:00:00.000Z,1970-01-01T18:07:00.000Z,,Landing,In,7.00,Bird Strike,Cathay Pasific,10,Fuselage,LNI692 - GO AROUND,Continue Flight,Inspeksi Runway,Pilot,Terkonfirmasi,"CATHAY PACIFIC
+Kronology : 
+11.07 UTC CPA779 LANDED RUNWAY 10 REPORT BIRDSTRIKE
+11.17 UTC RUNWAY INSPECTION FINISHED AND NOT FOUND ANY CARCASS ON RUNWAY",https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/bird-strike/20250722.pdf,Airbus

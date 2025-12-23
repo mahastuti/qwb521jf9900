@@ -1,0 +1,51 @@
+species_id,jenis_burung,nama_ilmiah,gambar_burung
+1,Apung Tanah,Anthus novaeseelandiae,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Apung%20Tanah.jpg
+2,Bentet Kelabu,Lanius schach,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Bentet%20Kelabu.jpg
+3,Blekok Sawah,Ardeola speciosa,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/blekokawah.jpg
+4,Bondol Haji,Lonchura maja,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Bondol%20Haji.jpg
+5,Bondol Ikan,Haliastur indus,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Bondol%20Ikan.jpg
+6,Bondol Jawa,Lonchura leucogastroides,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Bondol%20Jawa.jpg
+7,Bondol Peking,Lonchura punctulata,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/bondolpeking.jpg
+8,Bubut Jawa,Centropus nigrorufus,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Bubut%20Jawa.jpg
+9,Burung Gereja,Passer montanus,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Burung%20Gereja.jpeg
+10,Cangak Abu,Ardea cinerea,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Cangak%20Abu.jpg
+11,Cangak Merah,Ardea purpurea,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Cangak%20Merah.jpeg
+12,Cerek Jawa,Charadrius javanicus,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Cerek%20Jawa.jpg
+13,Cerek Melayu,Charadrius peronii,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Cerek%20Melayu.jpg
+14,Cucak Kutilang,Pycnonotus aurigaster,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/cucak%20kutilang.jpg
+15,Dara Biasa,Columba livia,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Dara%20Biasa.jpg
+16,Dara Domestik,Columba livia domestica,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Dara%20Domestik.jpg
+17,Dara Kumis,Chlidonias hybrida,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Dara%20Kumis.jpg
+18,Dara Laut Biasa,Sterna hirundo,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Dara%20Laut%20Biasa.jpg
+19,Dara Laut Kecil,Sterna albifrons,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Dara%20Laut%20Kecil.jpg
+20,Dara Laut Kumis,Chlidonias hybridus,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Dara%20Laut%20Kumis.jpg
+21,Dara Laut Tengkuk Hitam,Sterna sumatrana,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Dara%20Laut%20Tengkuk%20Hitam.jpg
+22,Dederuk,Streptopelia,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Dederuk.jpg
+23,Dederuk Jawa,Streptopelia bitorquata,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Dederuk%20Jawa.jpg
+24,Kapasan,Lalage,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Kapasan.jpg
+25,Kapasan Sayap Putih,Lalage sueurii,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Kapasan%20Sayap%20Putih.jpg
+26,Kareo Padi,Amaurornis phoenicurus,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Kareo%20Padi.jpg
+27,Kedidi Golgol,Calidris ferruginea,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Kedidi%20Golgol.jpg
+28,Kekep Babi,Artamus leucorynchus,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Kekep%20Babi.jpg
+29,Kerak Jawa,Acridotheres javanicus,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Kerak%20Jawa.jpg
+30,Kerak Ungu,Acridotheres tristis,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Kerak%20Ungu.jpg
+31,Kirik-Kirik Laut,Merops philippinus,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Kirik-Kirik%20Laut.jpg
+32,Kokokan Laut,Butorides striatus,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Kokokan%20Laut.jpg
+33,Kuntul Besar,Ardeidae,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Kuntul%20Besar.jpg
+34,Kuntul Kecil,Egretta garzetta,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Kuntul%20Kecil.jpg
+35,Kuntul Kerbau,Bubulcus ibis,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Kuntul%20Kecil.jpg
+36,Kuntul Perak,Egretta intermedia,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Kuntul%20Perak.jpg
+37,Kutilang,Pycnonotus aurigaster,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Kutilang.jpg
+38,Layang-Layang Batu,Hirundo javanica,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Layang-Layang%20Batu.jpg
+39,Layang-Layang Gua,Hirundo daurica,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Layang-Layang%20Gua.jpg
+40,Layang-Layang Sp,Hirundo rustica,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Layang-Layang%20Sp.jpg
+41,Mandar Padi,Gallirallus,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Mandar%20Padi.jpg
+42,Pecuk Padi Hitam,Phalacrocorax sulcirostris,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Mandar%20Padi.jpg
+43,Pecuk Padi Kecil,Microcarbo niger,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Pecuk%20Padi%20Kecil.jpg
+44,Perkutut Jawa,Geopelia striata,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Perkutut.jpg
+45,Remetuk Laut,Gerygone sulphurea,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Remetuk%20Laut.jpg
+46,Tekukur,Spilopelia chinensis,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Tekukur.jpg
+47,Trinil Pantai,Tringa hypoleucos,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Trinil%20Pantai.jpg
+48,Walet Linchi,Collocalia linchi,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Walet%20Linchi.jpg
+49,Walet Sapi,Collocalia esculenta,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Walet%20Sapi.jpg
+50,Walet Sp,Collocalia sp,https://odjhvlqvbnqrjlowjywq.supabase.co/storage/v1/object/public/jenis-burung/Walet%20Sp.jpg

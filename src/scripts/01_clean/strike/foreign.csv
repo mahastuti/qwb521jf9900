@@ -1,0 +1,19 @@
+phase_id,phase,perimeter_id,perimeter,category_id,category,airline_id,airline,remark_id,remark,component_id,component,type_id,type
+1,Approach,1,Out,1,Bird Strike,1,Air Asia,1,Terkonfirmasi,1,Kaca Kokpit,1,Airbus
+2,Take Off,2,In,2,Bat Strike,2,Citilink,2,Tidak Terkonfirmasi,2,Wind Shield,2,Boeing
+3,Landing,,,,,3,Silk Air,,,3,Radome,3,ATR
+4,Final,,,,,4,Singapore Airlines,,,4,Engine,4,Cessna
+5,Short Final,,,,,5,Batik Air,,,5,Cabin Door,,
+,,,,,,6,Scoot Airlines,,,6,Wind Shield,,
+,,,,,,7,Garuda Indonesia,,,7,Wing,,
+,,,,,,8,Wings Air,,,8,Nose,,
+,,,,,,9,Susi Air,,,9,Window,,
+,,,,,,10,Cathay Pasific,,,10,Fuselage,,
+,,,,,,11,Lion Air,,,11,Temperatur Air Sensor,,
+,,,,,,12,Saudi Arabian,,,12,Front Landing Gear,,
+,,,,,,13,Malaysia Airlines,,,,,,
+,,,,,,14,Airfast,,,,,,
+,,,,,,15,Royal Brunei,,,,,,
+,,,,,,16,Super Air Jet,,,,,,
+,,,,,,17,Pelita Air,,,,,,
+,,,,,,18,Jet Star,,,,,,

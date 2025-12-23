@@ -9,131 +9,62 @@ datasource db {
 }
 
 model burung_bio {
-  id            BigInt    @id @default(autoincrement())
-  longitude     String?   @db.VarChar
-  latitude      String?   @db.VarChar
-  lokasi        String?   @db.VarChar
-  titik         String?   @db.VarChar
-  tanggal       DateTime? @db.Date
-  jam           DateTime? @db.Time(6)
-  waktu         String?
-  cuaca         String?
-  jenis_burung  String?
-  nama_ilmiah   String?
-  jumlah_burung Int?
-  keterangan    String?
-  dokumentasi   String?
-  createdAt     DateTime  @default(now()) @db.Timestamptz(6)
-  updatedAt     DateTime? @updatedAt @db.Timestamp(6)
-  deletedAt     DateTime? @db.Timestamp(6)
-}
-
-model burung_bio_deleted {
-  id            BigInt    @id @default(autoincrement())
-  longitude     String?   @db.VarChar
-  latitude      String?   @db.VarChar
-  lokasi        String?   @db.VarChar
-  titik         String?   @db.VarChar
-  tanggal       DateTime? @db.Date
-  jam           DateTime? @db.Time(6)
-  waktu         String?
-  cuaca         String?
-  jenis_burung  String?
-  nama_ilmiah   String?
-  jumlah_burung Int?
-  keterangan    String?
-  dokumentasi   String?
-  createdAt     DateTime  @default(now()) @db.Timestamptz(6)
-  updatedAt     DateTime? @updatedAt @db.Timestamp(6)
-  deletedAt     DateTime? @db.Timestamp(6)
+  observation_id BigInt          @id @default(autoincrement())
+  point_id       BigInt
+  species_id     BigInt?
+  tanggal        DateTime?       @db.Date
+  jam            DateTime?       @db.Time(6)
+  waktu          String?         @db.VarChar
+  cuaca          String?         @db.VarChar
+  jumlah_burung  BigInt?
+  keterangan     String?
+  location       location        @relation(fields: [point_id], references: [point_id], onDelete: Cascade)
+  burung_species burung_species? @relation(fields: [species_id], references: [species_id], onDelete: Cascade)
 }
 
 model bird_strike {
-  id                  BigInt    @id @default(autoincrement())
-  tanggal             DateTime? @db.Date
-  jam                 DateTime? @db.Time(6)
-  waktu               String?
-  fase                String?
-  lokasi_perimeter    String?
-  kategori_kejadian   String?
-  remark              String?
-  airline             String?
-  runway_use          String?
-  komponen_pesawat    String?
-  dampak_pada_pesawat String?
-  kondisi_kerusakan   String?
-  tindakan_perbaikan  String?
-  sumber_informasi    String?
-  deskripsi           String?
-  dokumentasi         String?
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
-  deletedAt           DateTime?
-  jenis_pesawat       String?
-  titik               String?
-}
-
-model bird_strike_deleted {
-  id                  BigInt    @id @default(autoincrement())
-  tanggal             DateTime? @db.Date
-  jam                 DateTime? @db.Time(6)
-  waktu               String?
-  fase                String?
-  lokasi_perimeter    String?
-  kategori_kejadian   String?
-  remark              String?
-  airline             String?
-  runway_use          String?
-  komponen_pesawat    String?
-  dampak_pada_pesawat String?
-  kondisi_kerusakan   String?
-  tindakan_perbaikan  String?
-  sumber_informasi    String?
-  deskripsi           String?
-  dokumentasi         String?
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
-  deletedAt           DateTime?
-  jenis_pesawat       String?
-  titik               String?
+  event_id           BigInt            @id @default(autoincrement())
+  phase_id           BigInt?
+  perimeter_id       BigInt?
+  category_id        BigInt?
+  remark_id          BigInt?
+  airline_id         BigInt?
+  component_id       BigInt?
+  type_id            BigInt?
+  point_id           BigInt?
+  tanggal            DateTime?         @db.Date
+  jam                DateTime?         @db.Time(6)
+  waktu              String?           @db.VarChar
+  cuaca              String?           @db.VarChar
+  runway             String?           @db.VarChar
+  dampak_pesawat     String?
+  kondisi_kerusakan  String?
+  sumber_informasi   String?
+  tindakan_perbaikan String?
+  deskripsi          String?
+  dokumentasi        String?
+  airline            airline?          @relation(fields: [airline_id], references: [airline_id], onDelete: Cascade)
+  category           category?         @relation(fields: [category_id], references: [category_id], onDelete: Cascade)
+  component          component?        @relation(fields: [component_id], references: [component_id], onDelete: Cascade)
+  perimeter_status   perimeter_status? @relation(fields: [perimeter_id], references: [perimeter_id], onDelete: Cascade)
+  phase              phase?            @relation(fields: [phase_id], references: [phase_id], onDelete: Cascade)
+  location           location?         @relation(fields: [point_id], references: [point_id], onDelete: Cascade)
+  remark             remark?           @relation(fields: [remark_id], references: [remark_id], onDelete: Cascade)
+  aircraft_type      aircraft_type?    @relation(fields: [type_id], references: [type_id], onDelete: Cascade)
 }
 
 model traffic_flight {
-  id                   BigInt  @id @default(autoincrement())
-  no                   Int?
+  flight_id            BigInt  @id @default(autoincrement())
+  no                   String  @db.VarChar
   act_type             String? @db.VarChar
   reg_no               String? @db.VarChar
   opr                  String? @db.VarChar
   flight_number_origin String? @db.VarChar
   flight_number_dest   String? @db.VarChar
-  ata                  String?
-  block_on             String
-  block_off            String
-  atd                  String?
-  ground_time          String? @db.VarChar
-  org                  String? @db.VarChar
-  des                  String? @db.VarChar
-  ps                   String? @db.VarChar
-  runway               String? @db.VarChar
-  avio_a               String? @db.VarChar
-  avio_d               String? @db.VarChar
-  f_stat               String? @db.VarChar
-  bulan                String? @db.VarChar
-  tahun                String? @db.VarChar
-}
-
-model traffic_flight_deleted {
-  id                   BigInt  @id @default(autoincrement())
-  no                   Int?
-  act_type             String? @db.VarChar
-  reg_no               String? @db.VarChar
-  opr                  String? @db.VarChar
-  flight_number_origin String? @db.VarChar
-  flight_number_dest   String? @db.VarChar
-  ata                  String?
-  block_on             String
-  block_off            String
-  atd                  String?
+  ata                  String? @db.VarChar
+  block_on             String? @db.VarChar
+  block_off            String? @db.VarChar
+  atd                  String? @db.VarChar
   ground_time          String? @db.VarChar
   org                  String? @db.VarChar
   des                  String? @db.VarChar
@@ -147,14 +78,71 @@ model traffic_flight_deleted {
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model model {
-  id                         BigInt    @id @default(autoincrement())
-  tanggal                    DateTime  @db.Date
-  jam                        DateTime? @db.Time(6)
-  waktu                      String?   @db.VarChar
-  cuaca                      String?   @db.VarChar
-  rata_rata_burung_di_titik_x BigInt? 
-  titik                      BigInt?
-  fase                       String?   @db.VarChar
-  strike                     String?   @db.VarChar
+model aircraft_type {
+  type_id     BigInt        @id @default(autoincrement())
+  type        String        @db.VarChar
+  bird_strike bird_strike[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model airline {
+  airline_id  BigInt        @id @default(autoincrement())
+  airline     String        @db.VarChar
+  bird_strike bird_strike[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model burung_species {
+  species_id    BigInt       @id @default(autoincrement())
+  jenis_burung  String       @db.VarChar
+  nama_ilmiah   String?      @db.VarChar
+  gambar_burung String?      @db.VarChar
+  burung_bio    burung_bio[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model category {
+  category_id BigInt        @id @default(autoincrement())
+  category    String        @db.VarChar
+  bird_strike bird_strike[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model component {
+  component_id BigInt        @id @default(autoincrement())
+  component    String        @db.VarChar
+  bird_strike  bird_strike[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model location {
+  point_id    BigInt        @id @default(autoincrement())
+  latitude    Decimal       @db.Decimal
+  longitude   Decimal?      @db.Decimal
+  lokasi      String?       @db.VarChar
+  titik       Int?          @db.SmallInt
+  bird_strike bird_strike[]
+  burung_bio  burung_bio[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model perimeter_status {
+  perimeter_id BigInt        @id @default(autoincrement())
+  perimeter    String        @db.VarChar
+  bird_strike  bird_strike[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model phase {
+  phase_id    BigInt        @id @default(autoincrement())
+  phase       String        @db.VarChar
+  bird_strike bird_strike[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model remark {
+  remark_id   BigInt        @id @default(autoincrement())
+  remark      String        @db.VarChar
+  bird_strike bird_strike[]
 }
